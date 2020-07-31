@@ -10,12 +10,11 @@ public class Music {
     private String fullName;
     private String name;
     private String author;
-    private int duration;
+    private long duration;
     
-    public Music(String fullname, String author, int duration) {
+    public Music(String fullname, String author, long duration) {
 	setFullName(fullname);
-	Path path = Paths.get(fullname);
-	setName(path.getFileName().toString());
+	setName(getFileNameWithoutExtension(fullname));
 	setAuthor(author);
 	setDuration(duration);
     }
@@ -62,7 +61,7 @@ public class Music {
 	this.author = author;
     }
 
-    public void setDuration(int duration) {
+    public void setDuration(long duration) {
 	this.duration = duration;
     }
 
@@ -78,8 +77,26 @@ public class Music {
 	return author;
     }
 
-    public int getDuration() {
+    public long getDuration() {
 	return duration;
+    }
+    
+    public long getMinutes() {
+	return Math.floorDiv(duration, 60);
+    }
+    
+    public long getSecondes() {
+	return Math.floorMod(duration, 60);
+    }
+    
+    private String getFileNameWithoutExtension(String fullname) {
+	Path path = Paths.get(fullname);
+	String fileName = path.getFileName().toString();
+	if (fileName.indexOf(".") > 0) {
+	    return fileName.substring(0, fileName.lastIndexOf("."));
+	} else {
+	    return fileName;
+	}
     }
     
 }

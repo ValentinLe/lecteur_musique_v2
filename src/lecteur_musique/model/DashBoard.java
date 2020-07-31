@@ -1,6 +1,8 @@
 
 package lecteur_musique.model;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -46,7 +48,7 @@ public class DashBoard {
     }
     
     public void precedentMusic() {
-	if (!isEmpty() && currentMusic != null) {
+	if (!secondaryQueue.isEmpty() && currentMusic != null) {
 	    Music lastMusic = secondaryQueue.getLast();
 	    if (!priorityQueue.isEmpty()) {
 		priorityQueue.addFirst(currentMusic);
@@ -60,6 +62,34 @@ public class DashBoard {
     
     public void addMusic(Music music) {
 	this.secondaryQueue.add(music);
+    }
+    
+    public void addAllMusic(Collection<Music> musics) {
+	for (Music music : musics) {
+	    addMusic(music);
+	}
+    }
+    
+    public boolean switchToPriority(Music music) {
+	return switchMusic(secondaryQueue, priorityQueue, music);
+    }
+    
+    public boolean switchToSecondary(Music music) {
+	return switchMusic(priorityQueue, secondaryQueue, music);
+    }
+    
+    public boolean switchMusic(Queue<Music> startQueue, Queue<Music> endQueue, Music music) {
+	if (startQueue.contains(music)) {
+	    startQueue.remove(music);
+	    endQueue.add(music);
+	    return true;
+	} else {
+	    return false;
+	}
+    }
+    
+    public void shuffleSecondaryQueue() {
+	Collections.shuffle(secondaryQueue);
     }
 
     @Override
