@@ -17,8 +17,5 @@ public class Main {
 	}
 	dashboard.shuffleSecondaryQueue();
 	dashboard.nextMusic();
-	System.out.println(dashboard);
-        
-        
     }
 }
