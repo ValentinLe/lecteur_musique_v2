@@ -67,11 +67,43 @@ public class DashBoardController implements Initializable {
 
     @FXML
     private void changePosition(MouseEvent e) {
-	Music currentMusic = dashBoard.getCurrentMusic();
+	if (isPlaying) {
+	    Music currentMusic = dashBoard.getCurrentMusic();
+	    mediaPlayer.pause();
+	    double value = sliderTime.getValue();
+	    mediaPlayer.seek(new Duration(value * 1000));
+	    mediaPlayer.play();
+	    System.out.println("POS");
+	}
+    }
+    
+    @FXML
+    private void sliderTimeDragged(MouseEvent e) {
+	isPlaying = !isPlaying;
 	mediaPlayer.pause();
+	Music currentMusic = dashBoard.getCurrentMusic();
 	double value = sliderTime.getValue();
 	mediaPlayer.seek(new Duration(value * 1000));
-	mediaPlayer.play();
+	System.out.println("DRAGGED");
+    }
+    
+    @FXML
+    private void sliderTimeReleased(MouseEvent e) {
+	Music currentMusic = dashBoard.getCurrentMusic();
+	double value = sliderTime.getValue();
+	if (isPlaying) {
+	    System.out.println("PLAY 1");
+	}
+	mediaPlayer.seek(new Duration(value * 1000));
+	if (isPlaying) {
+	    System.out.println("PLAY 2");
+	}
+	if (!isPlaying) {
+	    mediaPlayer.play();
+	    isPlaying = !isPlaying;
+	}
+	
+	System.out.println("RELEASE");
     }
 
     private void updatePlayer() {
@@ -88,10 +120,12 @@ public class DashBoardController implements Initializable {
 	if (isPlaying) {
 	    mediaPlayer.play();
 	}
+	
 	mediaPlayer.currentTimeProperty().addListener((observable, oldDuration, newDuration) -> {
 	    Duration d = mediaPlayer.getCurrentTime();
 	    sliderTime.setValue(d.toSeconds());
 	});
+	
 	mediaPlayer.setOnEndOfMedia(() -> {
 	    nextMusic(null);
 	});
