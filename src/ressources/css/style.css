@@ -1,0 +1,9 @@
+
+.slider {
+  -fx-background-color: red;
+  -fx-padding: 0;
+}
+
+.slider .track {
+  -fx-padding: 8px 0 8px 0;
+}
