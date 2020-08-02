@@ -38,6 +38,18 @@ public class Music {
     public String toString() {
 	return "Music{" + "name=" + name + ", author=" + author + '}';
     }
+    
+    public static String stringDuration(long secondsValue) {
+	long minutes = Math.floorDiv(secondsValue, 60);
+	long seconds = Math.floorMod(secondsValue, 60);
+	String res = "";
+	res += minutes + ":";
+	if (seconds < 10) {
+	    res += "0";
+	}
+	res += seconds;
+	return res;
+    }
 
     @Override
     public boolean equals(Object obj) {

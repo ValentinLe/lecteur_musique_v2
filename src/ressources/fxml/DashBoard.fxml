@@ -9,15 +9,8 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-
 <VBox alignment="CENTER" prefHeight="500.0" prefWidth="1000.0" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lecteur_musique.gui.DashBoardController">
    <children>
-      <HBox>
-         <children>
-            <Separator prefWidth="200.0" HBox.hgrow="ALWAYS" />
-            <Button id="closeBtn" mnemonicParsing="false" onAction="#closeApp" text="X" />
-         </children>
-      </HBox>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
          <children>
             <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
@@ -29,7 +22,7 @@
             <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
                <children>
                   <Label text="Liste d'attente prioritaire" />
-                  <ListView fx:id="primaryList" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
+                  <ListView fx:id="priorityList" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
                </children>
             </VBox>
             <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
@@ -44,17 +37,23 @@
          <children>
             <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
                <children>
-                  <Label text="Titre" />
-                  <Label text="Autheur" />
+                  <Label fx:id="titleMusic" text="Titre" />
+                  <Label fx:id="authorMusic" text="Autheur" />
                </children>
             </VBox>
             <Separator prefWidth="200.0" HBox.hgrow="ALWAYS" />
-            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
                <children>
-                <Slider fx:id="sliderTime" onMouseDragged="#sliderTimeDragged" onMousePressed="#sliderTimeDragged" onMouseReleased="#sliderTimeReleased" prefHeight="18.0" prefWidth="601.0" />
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                     <children>
+                        <Label fx:id="currentTimeLab" text="0:00" HBox.hgrow="ALWAYS" />
+                      <Slider fx:id="sliderTime" onMouseDragged="#sliderTimePressed" onMousePressed="#sliderTimePressed" onMouseReleased="#sliderTimeReleased" prefHeight="18.0" />
+                        <Label fx:id="durationTimeLab" text="0:00" HBox.hgrow="ALWAYS" />
+                     </children>
+                  </HBox>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <Button mnemonicParsing="false" text="F" />
+                        <Button mnemonicParsing="false" onAction="#shuffleSecondary" text="F" />
                       <Button mnemonicParsing="false" onAction="#precedentMusic" text="&lt;" />
                       <Button mnemonicParsing="false" onAction="#playPause" text="O" />
                       <Button mnemonicParsing="false" onAction="#nextMusic" text="&gt;" />
@@ -69,7 +68,7 @@
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                      <children>
                         <Button mnemonicParsing="false" text="S" />
-                        <Slider />
+                        <Slider fx:id="sliderVolume" value="100.0" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
