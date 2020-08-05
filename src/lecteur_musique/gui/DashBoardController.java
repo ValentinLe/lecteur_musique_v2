@@ -72,11 +72,6 @@ public class DashBoardController implements Initializable {
     }
     
     @FXML
-    private void closeApp(ActionEvent event) {
-	System.exit(0);
-    }
-    
-    @FXML
     private void playPause(ActionEvent event) {
 	switchPlayPause();
     }
