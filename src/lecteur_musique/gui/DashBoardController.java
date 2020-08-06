@@ -7,9 +7,12 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Slider;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -47,7 +50,16 @@ public class DashBoardController implements Initializable {
     
     @FXML
     private Slider sliderVolume;
-
+    
+    @FXML
+    private Button bplaypause;
+    
+    @FXML
+    private Button bmute;
+    
+    @FXML
+    private Button bparameters;
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 	dashBoard = new DashBoard();
@@ -74,6 +86,12 @@ public class DashBoardController implements Initializable {
     @FXML
     private void playPause(ActionEvent event) {
 	switchPlayPause();
+	Image image = null;
+	if (isPlaying) {
+	    bplaypause.setStyle("-fx-background-image: url('/ressources/images/pause.png')");
+	} else {
+	    bplaypause.setStyle("-fx-background-image: url('/ressources/images/play.png')");
+	}
     }
     
     private void play() {
@@ -111,6 +129,22 @@ public class DashBoardController implements Initializable {
     private void precedentMusic(ActionEvent e) {
 	dashBoard.precedentMusic();
 	updatePlayer();
+    }
+    
+    @FXML
+    private void mute(ActionEvent e) {
+	if (!mediaPlayer.isMute()) {
+	    mediaPlayer.setMute(true);
+	    bmute.setStyle("-fx-background-image: url('/ressources/images/soundOff.png')");
+	} else {
+	    mediaPlayer.setMute(false);
+	    bmute.setStyle("-fx-background-image: url('/ressources/images/soundOn.png')");
+	}
+    }
+    
+    @FXML
+    private void parameters(ActionEvent e) {
+	
     }
     
     private boolean isPositionnateInTrack(MouseEvent e) {

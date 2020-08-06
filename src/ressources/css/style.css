@@ -1,4 +1,18 @@
 
+#searchinput {
+  -fx-text-box-border: transparent;
+  -fx-padding: 8px;
+}
+
+#searchList, #priorityList, #secondaryList, #searchinput {
+  -fx-background-radius: 8px;
+  -fx-background-insets: 0;
+}
+
+.separator {
+  -fx-opacity: 0;
+}
+
 .slider {
   -fx-background-color: blue;
   -fx-padding: 0;
@@ -9,9 +23,41 @@
 }
 
 .label {
-  -fx-padding: 4px 8px 4px 8px;
+  -fx-background-color: yellow;
 }
 
-.infoMusic {
-  -fx-barckground-color: yellow;
+#bshuffle, #bprecedent, #bplaypause, #bnext, #bloop, #bparameters, #bmute {
+  -fx-background-size: 30px;
+  -fx-min-width: 40px;
+  -fx-min-height: 40px;
+  -fx-background-repeat: no-repeat;
+  -fx-background-position: center;
+}
+
+#bshuffle {
+  -fx-background-image: url('/ressources/images/shuffle.png');
+}
+
+#bprecedent {
+  -fx-background-image: url('/ressources/images/precedent.png');
+}
+
+#bplaypause {
+  -fx-background-image: url('/ressources/images/play.png');
+}
+
+#bnext {
+  -fx-background-image: url('/ressources/images/next.png');
+}
+
+#bloop {
+  -fx-background-image: url('/ressources/images/loop.png');
+}
+
+#bparameters {
+  -fx-background-image: url('/ressources/images/config.png');
+}
+
+#bmute {
+  -fx-background-image: url('/ressources/images/soundOn.png');
 }
