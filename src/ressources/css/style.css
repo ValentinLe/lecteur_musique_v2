@@ -27,9 +27,12 @@
 }
 
 #bshuffle, #bprecedent, #bplaypause, #bnext, #bloop, #bparameters, #bmute {
-  -fx-background-size: 40px;
+  -fx-background-radius: 2000px;
+  -fx-background-size: 25px;
   -fx-min-width: 40px;
   -fx-min-height: 40px;
+  -fx-max-width: 40px;
+  -fx-max-height: 40px;
   -fx-background-repeat: no-repeat;
   -fx-background-position: center;
 }
@@ -37,7 +40,9 @@
 #bplaypause {
   -fx-min-width: 60px;
   -fx-min-height: 60px;
-  -fx-background-size: 60px;
+  -fx-max-width: 60px;
+  -fx-max-height: 60px;
+  -fx-background-size: 45px;
 }
 
 #bshuffle {

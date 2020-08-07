@@ -171,7 +171,9 @@ public class DashBoardController implements Initializable {
     }
 
     private void updatePlayer() {
+	boolean isMuted = false;
 	if (mediaPlayer != null) {
+	    isMuted = mediaPlayer.isMute();
 	    mediaPlayer.stop();
 	    mediaPlayer.dispose();
 	}
@@ -194,6 +196,9 @@ public class DashBoardController implements Initializable {
 	mediaPlayer.setOnEndOfMedia(() -> {
 	    nextMusic(null);
 	});
+	if (isMuted) {
+	    mediaPlayer.setMute(true);
+	}
 	
 	updateLabelsMusic();
 	updatePrimaryList();
