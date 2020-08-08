@@ -1,8 +1,9 @@
-
 package lecteur_musique.gui;
 
 import java.net.URL;
 import java.nio.file.Paths;
+import java.util.List;
+import java.util.Queue;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -30,36 +31,35 @@ public class DashBoardController implements Initializable {
 
     @FXML
     private Slider sliderTime;
-    
-    
+
     @FXML
     private ListView<String> priorityList;
     @FXML
     private ListView<String> secondaryList;
-    
+
     @FXML
     private Label titleMusic;
     @FXML
     private Label authorMusic;
-    
+
     @FXML
     private Label currentTimeLab;
-    
+
     @FXML
     private Label durationTimeLab;
-    
+
     @FXML
     private Slider sliderVolume;
-    
+
     @FXML
     private Button bplaypause;
-    
+
     @FXML
     private Button bmute;
-    
+
     @FXML
     private Button bparameters;
-    
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 	dashBoard = new DashBoard();
@@ -74,15 +74,15 @@ public class DashBoardController implements Initializable {
 	}
 	dashBoard.shuffleSecondaryQueue();
 	dashBoard.nextMusic();
-	updatePlayer();
-	
+	update();
+
 	sliderVolume.valueProperty().addListener((observable, oldDuration, newDuration) -> {
 	    if (mediaPlayer != null) {
-		mediaPlayer.setVolume(sliderVolume.getValue()/100);
+		mediaPlayer.setVolume(sliderVolume.getValue() / 100);
 	    }
 	});
     }
-    
+
     @FXML
     private void playPause(ActionEvent event) {
 	switchPlayPause();
@@ -93,17 +93,17 @@ public class DashBoardController implements Initializable {
 	    bplaypause.setStyle("-fx-background-image: url('/ressources/images/play.png')");
 	}
     }
-    
+
     private void play() {
 	mediaPlayer.play();
 	isPlaying = true;
     }
-    
+
     private void pause() {
 	mediaPlayer.pause();
 	isPlaying = false;
     }
-    
+
     private void switchPlayPause() {
 	if (isPlaying) {
 	    pause();
@@ -111,26 +111,26 @@ public class DashBoardController implements Initializable {
 	    play();
 	}
     }
-    
+
     @FXML
     private void shuffleSecondary(ActionEvent e) {
 	dashBoard.shuffleSecondaryQueue();
-	updateSecondaryList();
+	updateListView(secondaryList, dashBoard.getSecondaryQueue());
     }
 
     @FXML
     private void nextMusic(ActionEvent e) {
 	dashBoard.nextMusic();
-	updatePlayer();
-	
+	update();
+
     }
 
     @FXML
     private void precedentMusic(ActionEvent e) {
 	dashBoard.precedentMusic();
-	updatePlayer();
+	update();
     }
-    
+
     @FXML
     private void mute(ActionEvent e) {
 	if (!mediaPlayer.isMute()) {
@@ -141,12 +141,12 @@ public class DashBoardController implements Initializable {
 	    bmute.setStyle("-fx-background-image: url('/ressources/images/soundOn.png')");
 	}
     }
-    
+
     @FXML
     private void parameters(ActionEvent e) {
-	
+
     }
-    
+
     private boolean isPositionnateInTrack(MouseEvent e) {
 	int paddindX = 5;
 	int paddingY = 0;
@@ -154,7 +154,7 @@ public class DashBoardController implements Initializable {
 	boolean yRespected = paddingY <= e.getY() && e.getY() <= sliderTime.getHeight() - paddingY;
 	return xRespected && yRespected;
     }
-    
+
     @FXML
     private void sliderTimePressed(MouseEvent e) {
 	if (isPositionnateInTrack(e)) {
@@ -164,13 +164,35 @@ public class DashBoardController implements Initializable {
 	    mediaPlayer.seek(new Duration(value * 1000));
 	}
     }
-    
+
     @FXML
     private void sliderTimeReleased(MouseEvent e) {
 	play();
     }
 
-    private void updatePlayer() {
+    @FXML
+    private void moveToPriority(MouseEvent e) {
+	if (e.getClickCount() == 2) {
+	    int index = secondaryList.getSelectionModel().getSelectedIndex();
+	    Music music = dashBoard.getMusicAt((List) dashBoard.getSecondaryQueue(), index);
+	    dashBoard.switchToPriority(music);
+	    updatePriorityList();
+	    updateSecondaryList();
+	}
+    }
+    
+    @FXML
+    private void moveToSecondary(MouseEvent e) {
+	if (e.getClickCount() == 2) {
+	    int index = priorityList.getSelectionModel().getSelectedIndex();
+	    Music music = dashBoard.getMusicAt((List) dashBoard.getPriorityQueue(), index);
+	    dashBoard.switchToSecondary(music);
+	    updatePriorityList();
+	    updateSecondaryList();
+	}
+    }
+
+    private void update() {
 	boolean isMuted = false;
 	if (mediaPlayer != null) {
 	    isMuted = mediaPlayer.isMute();
@@ -186,25 +208,25 @@ public class DashBoardController implements Initializable {
 	if (isPlaying) {
 	    play();
 	}
-	
+
 	mediaPlayer.currentTimeProperty().addListener((observable, oldDuration, newDuration) -> {
 	    Duration d = mediaPlayer.getCurrentTime();
 	    sliderTime.setValue(d.toSeconds());
 	    currentTimeLab.setText(Music.stringDuration((long) d.toSeconds()));
 	});
-	
+
 	mediaPlayer.setOnEndOfMedia(() -> {
 	    nextMusic(null);
 	});
 	if (isMuted) {
 	    mediaPlayer.setMute(true);
 	}
-	
+
 	updateLabelsMusic();
-	updatePrimaryList();
+	updatePriorityList();
 	updateSecondaryList();
     }
-    
+
     private void updateLabelsMusic() {
 	Music currentMusic = dashBoard.getCurrentMusic();
 	titleMusic.setText(currentMusic.getName());
@@ -212,17 +234,18 @@ public class DashBoardController implements Initializable {
 	durationTimeLab.setText(Music.stringDuration(currentMusic.getDuration()));
     }
     
-    private void updatePrimaryList() {
-	priorityList.getItems().clear();
-	for (Music m : dashBoard.getPriorityQueue()) {
-	    priorityList.getItems().add(m.getName());
-	}
+    private void updatePriorityList() {
+	updateListView(priorityList, dashBoard.getPriorityQueue());
+    }
+
+    private void updateSecondaryList() {
+	updateListView(secondaryList, dashBoard.getSecondaryQueue());
     }
     
-    private void updateSecondaryList() {
-	secondaryList.getItems().clear();
-	for (Music m : dashBoard.getSecondaryQueue()) {
-	    secondaryList.getItems().add(m.getName());
+    private void updateListView(ListView listView, Queue<Music> queue) {
+	listView.getItems().clear();
+	for (Music m : queue) {
+	    listView.getItems().add(m.getName());
 	}
     }
 

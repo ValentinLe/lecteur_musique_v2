@@ -4,6 +4,7 @@ package lecteur_musique.model;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 
 public class DashBoard {
@@ -27,6 +28,10 @@ public class DashBoard {
 
     public Queue<Music> getSecondaryQueue() {
 	return secondaryQueue;
+    }
+    
+    public Music getMusicAt(List<Music> queue, int index) {
+	return queue.get(index);
     }
     
     public boolean isEmpty() {

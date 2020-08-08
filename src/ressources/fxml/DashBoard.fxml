@@ -30,9 +30,9 @@
             <TextField fx:id="searchinput" promptText="Rechercher..." GridPane.hgrow="ALWAYS" />
             <ListView fx:id="searchList" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
             <Label text="Liste d'attente prioritaire" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" />
-            <ListView fx:id="priorityList" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
+            <ListView fx:id="priorityList" onMouseClicked="#moveToSecondary" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
             <Label text="Liste d'attente" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" />
-            <ListView fx:id="secondaryList" prefHeight="288.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
+            <ListView fx:id="secondaryList" onMouseClicked="#moveToPriority" prefHeight="288.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
          </children>
          <VBox.margin>
             <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
