@@ -62,7 +62,7 @@
             </VBox>
             <VBox alignment="CENTER" GridPane.columnIndex="1">
                <children>
-                  <HBox alignment="CENTER" spacing="24.0">
+                  <HBox alignment="CENTER" spacing="16.0">
                      <children>
                         <Button fx:id="bshuffle" mnemonicParsing="false" onAction="#shuffleSecondary">
                            <tooltip>
