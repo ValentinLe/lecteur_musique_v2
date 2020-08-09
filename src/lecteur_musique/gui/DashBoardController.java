@@ -4,6 +4,8 @@ import java.net.URL;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.ResourceBundle;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -12,8 +14,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.Slider;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
@@ -30,20 +34,26 @@ public class DashBoardController implements Initializable {
     private boolean isPauseChangeValue;
 
     @FXML
+    private TextField searchinput;
+
+    @FXML
     private Slider sliderTime;
 
     @FXML
     private ProgressBar progressTime;
 
     @FXML
+    private GridPane zoneLists;
+
+    @FXML
     private ListView<String> priorityList;
-    
+
     @FXML
     private ListView<String> secondaryList;
 
     @FXML
     private Label titleMusic;
-    
+
     @FXML
     private Label authorMusic;
 
@@ -94,6 +104,19 @@ public class DashBoardController implements Initializable {
 
 	sliderTime.valueProperty().addListener((observable, oldDuration, newDuration) -> {
 	    progressTime.setProgress(sliderTime.getValue() / sliderTime.getMax());
+	});
+	
+	disableDefaultFocusTextField();
+    }
+    
+    private void disableDefaultFocusTextField() {
+	final BooleanProperty firstTime = new SimpleBooleanProperty(true);
+
+	searchinput.focusedProperty().addListener((observable, oldValue, newValue) -> {
+	    if (newValue && firstTime.get()) {
+		zoneLists.requestFocus(); // Delegate the focus to container 
+		firstTime.setValue(false); // Variable value changed for future references 
+	    }
 	});
     }
 

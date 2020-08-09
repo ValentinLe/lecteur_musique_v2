@@ -26,10 +26,10 @@
         </columnConstraints>
         <rowConstraints>
           <RowConstraints valignment="CENTER" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints vgrow="ALWAYS" />
         </rowConstraints>
          <children>
-            <TextField fx:id="searchinput" promptText="Rechercher..." GridPane.hgrow="ALWAYS" />
+            <TextField fx:id="searchinput" promptText="Rechercher..." />
             <ListView fx:id="searchList" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
             <Label styleClass="titleList" text="Liste d'attente prioritaire" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" />
             <ListView fx:id="priorityList" onMouseClicked="#moveToSecondary" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />

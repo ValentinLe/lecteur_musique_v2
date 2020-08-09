@@ -21,7 +21,8 @@
 
 #searchinput {
   -fx-text-box-border: transparent;
-  -fx-padding: 6px;
+  -fx-text-fill: -text-color;
+  -fx-font-weight: bold;
 }
 
 #searchList, #priorityList, #secondaryList, #searchinput {
@@ -36,6 +37,7 @@
   -fx-text-fill: -text-color;
   -fx-font-weight: bold;
   -fx-font-family: OpenSans, sans-serif;
+  -fx-background-radius: 4px;
 }
 
 .list-cell:selected {
