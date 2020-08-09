@@ -138,7 +138,6 @@ public class DashBoardController implements Initializable {
     private void nextMusic(ActionEvent e) {
 	dashBoard.nextMusic();
 	update();
-
     }
 
     @FXML
