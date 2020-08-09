@@ -1,38 +1,102 @@
 
+@font-face {
+  font-family: OpenSans;
+  src: url('/ressources/fonts/OpenSans/OpenSans-Regular.ttf');
+}
+
+* {
+  -primary-color: "#455A64";
+  -primary-color-light: "#607D8B";
+  -accent-color: "#FF5722";
+  -text-color: white;
+}
+
 .root {
   -fx-focus-color: transparent;
   -fx-faint-focus-color: transparent;
   -fx-border-color: transparent;
-  -fx-background-color: "#37474f";
+  -fx-background-color: -primary-color;
+  -fx-font-family: OpenSans, sans-serif;
 }
 
 #searchinput {
   -fx-text-box-border: transparent;
-  -fx-padding: 8px;
+  -fx-padding: 6px;
 }
 
 #searchList, #priorityList, #secondaryList, #searchinput {
-  -fx-background-radius: 8px;
+  -fx-background-radius: 6px;
   -fx-background-insets: 0;
   -fx-padding: 4px;
+  -fx-background-color: -primary-color-light;
+}
+
+.list-cell {
+  -fx-background-color: transparent;
+  -fx-text-fill: -text-color;
+  -fx-font-weight: bold;
+  -fx-font-family: OpenSans, sans-serif;
+}
+
+.list-cell:selected {
+  -fx-background-color: -accent-color;
 }
 
 .separator {
   -fx-opacity: 0;
 }
 
+.progress-bar {
+  -fx-background-radius: 100%;
+  -fx-background-insets: 0;
+}
+
+.progress-bar .bar {
+  -fx-padding: 3px;
+  -fx-background-insets: 0;
+  -fx-background-color: -accent-color;
+}
+
+.progress-bar .track {
+  -fx-control-inner-background: -text-color;
+  -fx-text-box-border: transparent;
+  -fx-background-insets: 0;
+}
+
 .slider {
-  -fx-background-color: blue;
-  -fx-padding: 0;
+  -fx-padding: 1px 0 1px 0;
 }
 
 .slider .track {
-  -fx-padding: 8px 0 8px 0;
-  -fx-background-color: "#ff5722";
+  -fx-background-color: null;
+  -fx-padding: 8px;
+}
+
+.slider .thumb {
+  -fx-background-color: -accent-color;
+  -fx-padding: 8px;
 }
 
 .label {
-  -fx-background-color: yellow;
+  -fx-text-fill: -text-color;
+  -fx-font-weight: bold;
+}
+
+.musicTime {
+  -fx-font-weight: normal;
+  -fx-font-size: 15px;
+}
+
+.titleList {
+  -fx-font-size: 17px;
+}
+
+#titleMusic {
+  -fx-font-size: 18px;
+}
+
+#authorMusic {
+  -fx-font-weight: normal;
 }
 
 .button {

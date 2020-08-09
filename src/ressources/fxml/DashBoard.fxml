@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.TextField?>
@@ -12,6 +13,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
 <VBox alignment="CENTER" prefHeight="500.0" prefWidth="1000.0" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lecteur_musique.gui.DashBoardController">
@@ -29,9 +31,9 @@
          <children>
             <TextField fx:id="searchinput" promptText="Rechercher..." GridPane.hgrow="ALWAYS" />
             <ListView fx:id="searchList" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
-            <Label text="Liste d'attente prioritaire" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" />
+            <Label styleClass="titleList" text="Liste d'attente prioritaire" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" />
             <ListView fx:id="priorityList" onMouseClicked="#moveToSecondary" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
-            <Label text="Liste d'attente" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" />
+            <Label styleClass="titleList" text="Liste d'attente" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" />
             <ListView fx:id="secondaryList" onMouseClicked="#moveToPriority" prefHeight="288.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
          </children>
          <VBox.margin>
@@ -52,13 +54,16 @@
                <children>
                   <Label fx:id="titleMusic" text="Titre">
                      <VBox.margin>
-                        <Insets left="8.0" />
+                        <Insets />
                      </VBox.margin></Label>
                   <Label fx:id="authorMusic" text="Autheur">
                      <VBox.margin>
-                        <Insets left="8.0" top="8.0" />
+                        <Insets top="8.0" />
                      </VBox.margin></Label>
                </children>
+               <GridPane.margin>
+                  <Insets left="16.0" />
+               </GridPane.margin>
             </VBox>
             <VBox alignment="CENTER" GridPane.columnIndex="1">
                <children>
@@ -77,14 +82,26 @@
                            </tooltip></Button>
                      </children>
                      <VBox.margin>
-                        <Insets bottom="16.0" />
+                        <Insets />
                      </VBox.margin>
                   </HBox>
-                  <HBox alignment="CENTER" spacing="8.0" VBox.vgrow="ALWAYS">
+                  <HBox alignment="CENTER" spacing="4.0" VBox.vgrow="ALWAYS">
                      <children>
-                        <Label fx:id="currentTimeLab" text="0:00" HBox.hgrow="ALWAYS" />
-                      <Slider fx:id="sliderTime" onMouseDragged="#sliderTimePressed" onMousePressed="#sliderTimePressed" onMouseReleased="#sliderTimeReleased" HBox.hgrow="ALWAYS" />
-                        <Label fx:id="durationTimeLab" text="0:00" HBox.hgrow="ALWAYS" />
+                        <Label fx:id="currentTimeLab" styleClass="musicTime" text="0:00" HBox.hgrow="ALWAYS" />
+                        <StackPane HBox.hgrow="ALWAYS">
+                           <children>
+                              <ProgressBar fx:id="progressTime" maxWidth="1.7976931348623157E308" progress="0.0" StackPane.alignment="CENTER">
+                                 <StackPane.margin>
+                                    <Insets left="8.0" right="8.0" />
+                                 </StackPane.margin>
+                              </ProgressBar>
+                            <Slider fx:id="sliderTime" onMouseDragged="#sliderTimePressed" onMousePressed="#sliderTimePressed" onMouseReleased="#sliderTimeReleased" />
+                           </children>
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                        </StackPane>
+                        <Label fx:id="durationTimeLab" styleClass="musicTime" text="0:00" HBox.hgrow="ALWAYS" />
                      </children>
                   </HBox>
                </children>
@@ -98,18 +115,30 @@
                   <Separator HBox.hgrow="ALWAYS" />
                   <VBox alignment="CENTER_RIGHT" prefWidth="300.0">
                      <children>
-                        <HBox alignment="CENTER" spacing="8.0">
+                        <HBox alignment="CENTER">
                            <children>
                               <Button fx:id="bmute" mnemonicParsing="false" onAction="#mute" />
-                              <Slider fx:id="sliderVolume" value="100.0" />
+                              <StackPane>
+                                 <children>
+                                    <ProgressBar fx:id="progressVolume" maxWidth="1.7976931348623157E308" progress="1.0">
+                                       <StackPane.margin>
+                                          <Insets left="8.0" right="8.0" />
+                                       </StackPane.margin>
+                                    </ProgressBar>
+                                    <Slider fx:id="sliderVolume" value="100.0" />
+                                 </children>
+                              </StackPane>
                            </children>
                         </HBox>
                         <HBox alignment="CENTER" spacing="24.0">
                            <children>
-                              <Button fx:id="bparameters" mnemonicParsing="false" onAction="#parameters" />
+                              <Button fx:id="bparameters" mnemonicParsing="false" onAction="#parameters">
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin></Button>
                            </children>
                            <VBox.margin>
-                              <Insets top="16.0" />
+                              <Insets bottom="8.0" />
                            </VBox.margin>
                         </HBox>
                      </children>
@@ -118,7 +147,7 @@
             </HBox>
          </children>
          <VBox.margin>
-            <Insets bottom="24.0" top="16.0" />
+            <Insets bottom="8.0" />
          </VBox.margin>
       </GridPane>
    </children>

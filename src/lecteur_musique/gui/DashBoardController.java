@@ -11,6 +11,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -28,9 +29,13 @@ public class DashBoardController implements Initializable {
     private MediaPlayer mediaPlayer;
     private DashBoard dashBoard;
     private boolean isPlaying;
+    private boolean isPauseChangeValue;
 
     @FXML
     private Slider sliderTime;
+
+    @FXML
+    private ProgressBar progressTime;
 
     @FXML
     private ListView<String> priorityList;
@@ -52,6 +57,9 @@ public class DashBoardController implements Initializable {
     private Slider sliderVolume;
 
     @FXML
+    private ProgressBar progressVolume;
+
+    @FXML
     private Button bplaypause;
 
     @FXML
@@ -64,6 +72,7 @@ public class DashBoardController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
 	dashBoard = new DashBoard();
 	isPlaying = false;
+	isPauseChangeValue = false;
 	String folder = "C:\\Users\\Val\\Desktop\\Dossier\\musiques\\";
 
 	MusicReader reader = new MP3MusicReader();
@@ -76,10 +85,15 @@ public class DashBoardController implements Initializable {
 	dashBoard.nextMusic();
 	update();
 
-	sliderVolume.valueProperty().addListener((observable, oldDuration, newDuration) -> {
+	sliderVolume.valueProperty().addListener((observable, oldValue, newValue) -> {
 	    if (mediaPlayer != null) {
 		mediaPlayer.setVolume(sliderVolume.getValue() / 100);
 	    }
+	    progressVolume.setProgress(sliderVolume.getValue() / sliderVolume.getMax());
+	});
+
+	sliderTime.valueProperty().addListener((observable, oldDuration, newDuration) -> {
+	    progressTime.setProgress(sliderTime.getValue() / sliderTime.getMax());
 	});
     }
 
@@ -147,17 +161,20 @@ public class DashBoardController implements Initializable {
 
     }
 
-    private boolean isPositionnateInTrack(MouseEvent e) {
-	int paddindX = 5;
-	int paddingY = 0;
-	boolean xRespected = paddindX <= e.getX() && e.getX() <= sliderTime.getWidth() - paddindX;
-	boolean yRespected = paddingY <= e.getY() && e.getY() <= sliderTime.getHeight() - paddingY;
+    private boolean isVerticalPositionnateInTrack(Slider slider, MouseEvent e) {
+	int paddindX = 4;
+	int paddingY = 1;
+	boolean xRespected = paddindX <= e.getX() && e.getX() <= slider.getWidth() - paddindX;
+	boolean yRespected = paddingY <= e.getY() && e.getY() <= slider.getHeight() - paddingY;
 	return xRespected && yRespected;
     }
 
     @FXML
     private void sliderTimePressed(MouseEvent e) {
-	if (isPositionnateInTrack(e)) {
+	if (isVerticalPositionnateInTrack(sliderTime, e)) {
+	    if (isPlaying) {
+		isPauseChangeValue = true;
+	    }
 	    pause();
 	    Music currentMusic = dashBoard.getCurrentMusic();
 	    double value = sliderTime.getValue();
@@ -167,7 +184,10 @@ public class DashBoardController implements Initializable {
 
     @FXML
     private void sliderTimeReleased(MouseEvent e) {
-	play();
+	if (isPauseChangeValue) {
+	    play();
+	}
+	isPauseChangeValue = false;
     }
 
     @FXML
@@ -180,7 +200,7 @@ public class DashBoardController implements Initializable {
 	    updateSecondaryList();
 	}
     }
-    
+
     @FXML
     private void moveToSecondary(MouseEvent e) {
 	if (e.getClickCount() == 2) {
@@ -233,7 +253,7 @@ public class DashBoardController implements Initializable {
 	authorMusic.setText(currentMusic.getAuthor());
 	durationTimeLab.setText(Music.stringDuration(currentMusic.getDuration()));
     }
-    
+
     private void updatePriorityList() {
 	updateListView(priorityList, dashBoard.getPriorityQueue());
     }
@@ -241,7 +261,7 @@ public class DashBoardController implements Initializable {
     private void updateSecondaryList() {
 	updateListView(secondaryList, dashBoard.getSecondaryQueue());
     }
-    
+
     private void updateListView(ListView listView, Queue<Music> queue) {
 	listView.getItems().clear();
 	for (Music m : queue) {
