@@ -39,11 +39,13 @@ public class DashBoardController implements Initializable {
 
     @FXML
     private ListView<String> priorityList;
+    
     @FXML
     private ListView<String> secondaryList;
 
     @FXML
     private Label titleMusic;
+    
     @FXML
     private Label authorMusic;
 
