@@ -3,7 +3,6 @@ package lecteur_musique.gui;
 import java.net.URL;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.Queue;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,7 +13,6 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -195,7 +193,7 @@ public class DashBoardController implements Initializable {
     private void moveToPriority(MouseEvent e) {
 	if (e.getClickCount() == 2) {
 	    int index = secondaryList.getSelectionModel().getSelectedIndex();
-	    Music music = dashBoard.getMusicAt((List) dashBoard.getSecondaryQueue(), index);
+	    Music music = dashBoard.getMusicAt(dashBoard.getSecondaryQueue(), index);
 	    dashBoard.switchToPriority(music);
 	    updatePriorityList();
 	    updateSecondaryList();
@@ -206,7 +204,7 @@ public class DashBoardController implements Initializable {
     private void moveToSecondary(MouseEvent e) {
 	if (e.getClickCount() == 2) {
 	    int index = priorityList.getSelectionModel().getSelectedIndex();
-	    Music music = dashBoard.getMusicAt((List) dashBoard.getPriorityQueue(), index);
+	    Music music = dashBoard.getMusicAt(dashBoard.getPriorityQueue(), index);
 	    dashBoard.switchToSecondary(music);
 	    updatePriorityList();
 	    updateSecondaryList();
@@ -263,7 +261,7 @@ public class DashBoardController implements Initializable {
 	updateListView(secondaryList, dashBoard.getSecondaryQueue());
     }
 
-    private void updateListView(ListView listView, Queue<Music> queue) {
+    private void updateListView(ListView<String> listView, List<Music> queue) {
 	listView.getItems().clear();
 	for (Music m : queue) {
 	    listView.getItems().add(m.getName());

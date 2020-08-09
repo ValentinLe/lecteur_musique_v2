@@ -1,32 +1,32 @@
 
 package lecteur_musique.model;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
 public class DashBoard {
     
     private Music currentMusic;
-    private LinkedList<Music> priorityQueue;
-    private LinkedList<Music> secondaryQueue;
+    private List<Music> priorityQueue;
+    private List<Music> secondaryQueue;
 
     public DashBoard() {
-	this.priorityQueue = new LinkedList<>();
-	this.secondaryQueue = new LinkedList<>();
+	this.priorityQueue = new ArrayList<>();
+	this.secondaryQueue = new ArrayList<>();
     }
 
     public Music getCurrentMusic() {
 	return currentMusic;
     }
 
-    public Queue<Music> getPriorityQueue() {
+    public List<Music> getPriorityQueue() {
 	return priorityQueue;
     }
 
-    public Queue<Music> getSecondaryQueue() {
+    public List<Music> getSecondaryQueue() {
 	return secondaryQueue;
     }
     
@@ -45,20 +45,20 @@ public class DashBoard {
 		currentMusic = null;
 	    }
 	    if (!priorityQueue.isEmpty()) {
-		currentMusic = priorityQueue.remove();
+		currentMusic = priorityQueue.remove(0);
 	    } else {
-		currentMusic = secondaryQueue.remove();
+		currentMusic = secondaryQueue.remove(0);
 	    }
 	}
     }
     
     public void precedentMusic() {
 	if (!secondaryQueue.isEmpty() && currentMusic != null) {
-	    Music lastMusic = secondaryQueue.getLast();
+	    Music lastMusic = secondaryQueue.get(secondaryQueue.size() - 1);
 	    if (!priorityQueue.isEmpty()) {
-		priorityQueue.addFirst(currentMusic);
+		priorityQueue.add(0, currentMusic);
 	    } else {
-		secondaryQueue.addFirst(currentMusic);
+		secondaryQueue.add(0, currentMusic);
 	    }
 	    currentMusic = lastMusic;
 	    secondaryQueue.remove(currentMusic);
@@ -83,7 +83,7 @@ public class DashBoard {
 	return switchMusic(priorityQueue, secondaryQueue, music);
     }
     
-    public boolean switchMusic(Queue<Music> startQueue, Queue<Music> endQueue, Music music) {
+    public boolean switchMusic(List<Music> startQueue, List<Music> endQueue, Music music) {
 	if (startQueue.contains(music)) {
 	    startQueue.remove(music);
 	    endQueue.add(music);
