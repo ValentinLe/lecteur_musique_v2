@@ -8,6 +8,8 @@
   -primary-color: "#455A64";
   -primary-color-light: "#607D8B";
   -accent-color: "#FF5722";
+  -accent-color-40: rgba(255, 87, 34, 0.4);
+  -accent-color-80: rgba(255, 87, 34, 0.8);
   -text-color: white;
 }
 
@@ -25,6 +27,48 @@
   -fx-font-weight: bold;
 }
 
+.scroll-bar {
+  -fx-background-color: transparent;
+  -fx-padding: 0 0 0 4px;
+}
+
+.scroll-bar:horizontal .track,
+.scroll-bar:vertical .track {
+  -fx-background-color :transparent;
+  -fx-border-color :transparent;
+  -fx-background-radius : 0;
+  -fx-border-radius: 0;
+}
+
+.scroll-bar:horizontal .increment-button,
+.scroll-bar:horizontal .decrement-button,
+.scroll-bar:vertical .increment-button,
+.scroll-bar:vertical .decrement-button {
+  -fx-background-color: transparent;
+  -fx-background-radius: 0;
+  -fx-padding: 0;
+
+}
+
+.scroll-bar .increment-arrow,
+.scroll-bar .decrement-arrow {
+  -fx-shape: " ";
+  -fx-padding: 0 4px 0 4px;
+}
+
+.scroll-bar:vertical .increment-arrow,
+.scroll-bar:vertical .decrement-arrow {
+  -fx-shape: " ";
+  -fx-padding: 0 6px 0 6px;
+}
+
+.scroll-bar:horizontal .thumb,
+.scroll-bar:vertical .thumb {
+  -fx-background-color : -primary-color;
+  -fx-background-insets : 2.0, 0.0, 0.0;
+  -fx-background-radius : 2.0em;
+}
+
 #searchList, #priorityList, #secondaryList, #searchinput {
   -fx-background-radius: 6px;
   -fx-background-insets: 0;
@@ -40,8 +84,12 @@
   -fx-background-radius: 4px;
 }
 
+.list-cell:hover {
+  -fx-background-color: -accent-color-40;
+}
+
 .list-cell:selected {
-  -fx-background-color: -accent-color;
+  -fx-background-color: -accent-color-80;
 }
 
 .separator {
