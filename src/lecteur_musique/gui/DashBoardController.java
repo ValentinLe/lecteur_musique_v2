@@ -6,11 +6,14 @@ import java.util.List;
 import java.util.ResourceBundle;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.Slider;
@@ -46,10 +49,10 @@ public class DashBoardController implements Initializable {
     private GridPane zoneLists;
 
     @FXML
-    private ListView<String> priorityList;
+    private ListView<Music> priorityList;
 
     @FXML
-    private ListView<String> secondaryList;
+    private ListView<Music> secondaryList;
 
     @FXML
     private Label titleMusic;
@@ -77,6 +80,10 @@ public class DashBoardController implements Initializable {
 
     @FXML
     private Button bparameters;
+    
+    private ObservableList<Music> observablePriority;
+    
+    private ObservableList<Music> observableSecondary;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -93,7 +100,6 @@ public class DashBoardController implements Initializable {
 	}
 	dashBoard.shuffleSecondaryQueue();
 	dashBoard.nextMusic();
-	update();
 
 	sliderVolume.valueProperty().addListener((observable, oldValue, newValue) -> {
 	    if (mediaPlayer != null) {
@@ -106,9 +112,31 @@ public class DashBoardController implements Initializable {
 	    progressTime.setProgress(sliderTime.getValue() / sliderTime.getMax());
 	});
 	
+	
+	observablePriority = FXCollections.observableList(dashBoard.getPriorityQueue());
+	observableSecondary = FXCollections.observableList(dashBoard.getSecondaryQueue());
+	
+	priorityList.setCellFactory(new MusicCellFactory());
+	secondaryList.setCellFactory(new MusicCellFactory());
+	
+	update();
+	
 	disableDefaultFocusTextField();
     }
-    
+
+    private ListCell<Music> getListCellMusic() {
+	ListCell<Music> cell = new ListCell<Music>() {
+	    @Override
+	    protected void updateItem(Music music, boolean bln) {
+		super.updateItem(music, bln);
+		if (music != null) {
+		    setText(music.getName() + " -- " + music.getAuthor());
+		}
+	    }
+	};
+	return cell;
+    }
+
     private void disableDefaultFocusTextField() {
 	final BooleanProperty firstTime = new SimpleBooleanProperty(true);
 
@@ -152,7 +180,7 @@ public class DashBoardController implements Initializable {
     @FXML
     private void shuffleSecondary(ActionEvent e) {
 	dashBoard.shuffleSecondaryQueue();
-	updateListView(secondaryList, dashBoard.getSecondaryQueue());
+	updateSecondaryList();
     }
 
     @FXML
@@ -216,10 +244,12 @@ public class DashBoardController implements Initializable {
     private void moveToPriority(MouseEvent e) {
 	if (e.getClickCount() == 2) {
 	    int index = secondaryList.getSelectionModel().getSelectedIndex();
-	    Music music = dashBoard.getMusicAt(dashBoard.getSecondaryQueue(), index);
-	    dashBoard.switchToPriority(music);
-	    updatePriorityList();
-	    updateSecondaryList();
+	    if (index >= 0) {
+		Music music = dashBoard.getMusicAt(dashBoard.getSecondaryQueue(), index);
+		dashBoard.switchToPriority(music);
+		updatePriorityList();
+		updateSecondaryList();
+	    }
 	}
     }
 
@@ -227,10 +257,12 @@ public class DashBoardController implements Initializable {
     private void moveToSecondary(MouseEvent e) {
 	if (e.getClickCount() == 2) {
 	    int index = priorityList.getSelectionModel().getSelectedIndex();
-	    Music music = dashBoard.getMusicAt(dashBoard.getPriorityQueue(), index);
-	    dashBoard.switchToSecondary(music);
-	    updatePriorityList();
-	    updateSecondaryList();
+	    if (index >= 0) {
+		Music music = dashBoard.getMusicAt(dashBoard.getPriorityQueue(), index);
+		dashBoard.switchToSecondary(music);
+		updatePriorityList();
+		updateSecondaryList();
+	    }
 	}
     }
 
@@ -263,32 +295,26 @@ public class DashBoardController implements Initializable {
 	if (isMuted) {
 	    mediaPlayer.setMute(true);
 	}
-
-	updateLabelsMusic();
 	updatePriorityList();
 	updateSecondaryList();
+	updateLabelsMusic();
     }
 
     private void updateLabelsMusic() {
 	Music currentMusic = dashBoard.getCurrentMusic();
 	titleMusic.setText(currentMusic.getName());
 	authorMusic.setText(currentMusic.getAuthor());
-	durationTimeLab.setText(Music.stringDuration(currentMusic.getDuration()));
+	durationTimeLab.setText(currentMusic.getStringDuration());
     }
 
     private void updatePriorityList() {
-	updateListView(priorityList, dashBoard.getPriorityQueue());
+	priorityList.getItems().clear();
+	priorityList.setItems(observablePriority);
     }
 
     private void updateSecondaryList() {
-	updateListView(secondaryList, dashBoard.getSecondaryQueue());
-    }
-
-    private void updateListView(ListView<String> listView, List<Music> queue) {
-	listView.getItems().clear();
-	for (Music m : queue) {
-	    listView.getItems().add(m.getName());
-	}
+	priorityList.getItems().clear();
+	secondaryList.setItems(observableSecondary);
     }
 
 }

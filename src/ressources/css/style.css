@@ -27,6 +27,9 @@
   -fx-font-weight: bold;
 }
 
+
+/* SCROLLBARS */
+
 .scroll-bar {
   -fx-background-color: transparent;
   -fx-padding: 0 0 0 4px;
@@ -34,10 +37,8 @@
 
 .scroll-bar:horizontal .track,
 .scroll-bar:vertical .track {
-  -fx-background-color :transparent;
-  -fx-border-color :transparent;
-  -fx-background-radius : 0;
-  -fx-border-radius: 0;
+  -fx-background-color: transparent;
+  -fx-border-color: transparent;
 }
 
 .scroll-bar:horizontal .increment-button,
@@ -45,7 +46,6 @@
 .scroll-bar:vertical .increment-button,
 .scroll-bar:vertical .decrement-button {
   -fx-background-color: transparent;
-  -fx-background-radius: 0;
   -fx-padding: 0;
 
 }
@@ -53,21 +53,17 @@
 .scroll-bar .increment-arrow,
 .scroll-bar .decrement-arrow {
   -fx-shape: " ";
-  -fx-padding: 0 4px 0 4px;
-}
-
-.scroll-bar:vertical .increment-arrow,
-.scroll-bar:vertical .decrement-arrow {
-  -fx-shape: " ";
   -fx-padding: 0 6px 0 6px;
 }
 
 .scroll-bar:horizontal .thumb,
 .scroll-bar:vertical .thumb {
   -fx-background-color : -primary-color;
-  -fx-background-insets : 2.0, 0.0, 0.0;
-  -fx-background-radius : 2.0em;
+  -fx-background-radius : 8px;
 }
+
+
+/* LISTVIEW */
 
 #searchList, #priorityList, #secondaryList, #searchinput {
   -fx-background-radius: 6px;
@@ -92,9 +88,13 @@
   -fx-background-color: -accent-color-80;
 }
 
+/* GLUE DES VBOX/HBOX */
 .separator {
   -fx-opacity: 0;
 }
+
+
+/* PROGRESSBAR ET SLIDER */
 
 .progress-bar {
   -fx-background-radius: 100%;
@@ -111,6 +111,7 @@
   -fx-control-inner-background: -text-color;
   -fx-text-box-border: transparent;
   -fx-background-insets: 0;
+  -fx-background-radius: 8px;
 }
 
 .slider {
@@ -126,6 +127,9 @@
   -fx-background-color: -accent-color;
   -fx-padding: 8px;
 }
+
+
+/* LABEL */
 
 .label {
   -fx-text-fill: -text-color;
@@ -148,6 +152,9 @@
 #authorMusic {
   -fx-font-weight: normal;
 }
+
+
+/* BUTTON */
 
 .button {
   -fx-background-color: transparent;

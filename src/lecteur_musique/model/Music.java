@@ -101,6 +101,10 @@ public class Music {
 	return Math.floorMod(duration, 60);
     }
     
+    public String getStringDuration() {
+	return stringDuration(getDuration());
+    }
+    
     private String getFileNameWithoutExtension(String fullname) {
 	Path path = Paths.get(fullname);
 	String fileName = path.getFileName().toString();
