@@ -30,8 +30,13 @@
         </rowConstraints>
          <children>
             <TextField fx:id="searchinput" promptText="Rechercher..." />
-            <ListView fx:id="searchList" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
-            <Label styleClass="titleList" text="Liste d'attente prioritaire" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" />
+            <ListView fx:id="searchList" onMouseClicked="#moveToPrioritySearched" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
+            <HBox fx:id="contentLabelsPriority" alignment="CENTER" spacing="8.0" GridPane.columnIndex="1">
+               <children>
+                  <Label alignment="TOP_LEFT" styleClass="titleList" text="Liste d'attente prioritaire" />
+                  <Label fx:id="durationPriority" />
+               </children>
+            </HBox>
             <ListView fx:id="priorityList" onMouseClicked="#moveToSecondary" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
             <Label styleClass="titleList" text="Liste d'attente" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" />
             <ListView fx:id="secondaryList" onMouseClicked="#moveToPriority" prefHeight="288.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />

@@ -8,6 +8,7 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -20,6 +21,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
@@ -48,11 +50,17 @@ public class DashBoardController implements Initializable {
     private GridPane zoneLists;
 
     @FXML
+    private ListView<Music> searchList;
+
+    @FXML
     private ListView<Music> priorityList;
 
     @FXML
     private ListView<Music> secondaryList;
-
+    
+    @FXML
+    private Label durationPriority;
+    
     @FXML
     private Label titleMusic;
 
@@ -80,10 +88,15 @@ public class DashBoardController implements Initializable {
     @FXML
     private Button bparameters;
 
+    private FilteredList<Music> filteredList;
+    
+    @FXML
+    private HBox contentLabelsPriority; 
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 	dashBoard = new DashBoard(
-		FXCollections.observableList(new ArrayList<>()), 
+		FXCollections.observableList(new ArrayList<>()),
 		FXCollections.observableList(new ArrayList<>())
 	);
 	isPlaying = false;
@@ -109,15 +122,34 @@ public class DashBoardController implements Initializable {
 	sliderTime.valueProperty().addListener((observable, oldDuration, newDuration) -> {
 	    progressTime.setProgress(sliderTime.getValue() / sliderTime.getMax());
 	});
-	
+
+	searchList.setCellFactory(new MusicCellFactory());
 	priorityList.setCellFactory(new MusicCellFactory());
 	secondaryList.setCellFactory(new MusicCellFactory());
-	
-	priorityList.setItems((ObservableList<Music>) dashBoard.getPriorityQueue());
-	secondaryList.setItems((ObservableList<Music>) dashBoard.getSecondaryQueue());
-	
+
+	ObservableList<Music> observableSortedMusics = FXCollections.observableList(dashBoard.getSortedMusics());
+	ObservableList<Music> observablePriority = (ObservableList<Music>) dashBoard.getPriorityQueue();
+	ObservableList<Music> observableSecondary = (ObservableList<Music>) dashBoard.getSecondaryQueue();
+
+	priorityList.setItems(observablePriority);
+	secondaryList.setItems(observableSecondary);
+
+	filteredList = new FilteredList<>(observableSortedMusics, s -> true);
+	searchList.setItems(filteredList);
+
+	searchinput.textProperty().addListener((observable, oldValue, newValue) -> {
+	    filteredList.setPredicate(music -> {
+		if (newValue == null || newValue.isEmpty()) {
+		    return true;
+		}
+		String lowerCaseSearch = searchinput.getText().toLowerCase();
+		return music.getName().toLowerCase().contains(lowerCaseSearch) ||
+			music.getAuthor().toLowerCase().contains(lowerCaseSearch);
+	    });
+	});
+
 	update();
-	
+
 	disableDefaultFocusTextField();
     }
 
@@ -230,6 +262,19 @@ public class DashBoardController implements Initializable {
 	    if (index >= 0) {
 		Music music = dashBoard.getMusicAt(dashBoard.getSecondaryQueue(), index);
 		dashBoard.switchToPriority(music);
+		updateLabelsMusic();
+	    }
+	}
+    }
+    
+    @FXML
+    private void moveToPrioritySearched(MouseEvent e) {
+	if (e.getClickCount() == 2) {
+	    int index = searchList.getSelectionModel().getSelectedIndex();
+	    if (index >= 0) {
+		Music music = filteredList.get(index);
+		dashBoard.switchToPriority(music);
+		updateLabelsMusic();
 	    }
 	}
     }
@@ -241,6 +286,7 @@ public class DashBoardController implements Initializable {
 	    if (index >= 0) {
 		Music music = dashBoard.getMusicAt(dashBoard.getPriorityQueue(), index);
 		dashBoard.switchToSecondary(music);
+		updateLabelsMusic();
 	    }
 	}
     }
@@ -279,6 +325,14 @@ public class DashBoardController implements Initializable {
 
     private void updateLabelsMusic() {
 	Music currentMusic = dashBoard.getCurrentMusic();
+	long sumDuration = dashBoard.getSumDurationOfPriorityQueue();
+	if (sumDuration > 0) {
+	    durationPriority.setText("(" + Music.stringDuration(sumDuration) + ")");
+	    contentLabelsPriority.setSpacing(8);
+	} else {
+	    durationPriority.setText("");
+	    contentLabelsPriority.setSpacing(0);
+	}
 	titleMusic.setText(currentMusic.getName());
 	authorMusic.setText(currentMusic.getAuthor());
 	durationTimeLab.setText(currentMusic.getStringDuration());

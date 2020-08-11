@@ -5,7 +5,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Objects;
 
-public class Music {
+public class Music implements Comparable<Music> {
 
     private String fullName;
     private String name;
@@ -114,5 +114,9 @@ public class Music {
 	    return fileName;
 	}
     }
-    
+
+    @Override
+    public int compareTo(Music o) {
+	return getName().compareTo(o.getName());
+    }
 }

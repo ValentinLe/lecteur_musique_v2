@@ -37,6 +37,22 @@ public class DashBoard {
 	return queue.get(index);
     }
     
+    public List<Music> getMusics() {
+	List<Music> musics = new ArrayList<>();
+	musics.addAll(getPriorityQueue());
+	musics.addAll(getSecondaryQueue());
+	if (getCurrentMusic() != null) {
+	    musics.add(getCurrentMusic());
+	}
+	return musics;
+    }
+    
+    public List<Music> getSortedMusics() {
+	List<Music> sortedMusics = getMusics();
+	Collections.sort(sortedMusics);
+	return sortedMusics;
+    }
+    
     public boolean isEmpty() {
 	return this.priorityQueue.isEmpty() && this.secondaryQueue.isEmpty();
     }
@@ -98,6 +114,22 @@ public class DashBoard {
     
     public void shuffleSecondaryQueue() {
 	Collections.shuffle(secondaryQueue);
+    }
+    
+    public long getSumDurationOfPriorityQueue() {
+	return getSumDurationOf(priorityQueue);
+    }
+    
+    public long getSumDurationOfSecondaryQueue() {
+	return getSumDurationOf(secondaryQueue);
+    }
+    
+    public long getSumDurationOf(List<Music> queue) {
+	long sum = 0;
+	for (Music music : queue) {
+	    sum += music.getDuration();
+	}
+	return sum;
     }
 
     @Override

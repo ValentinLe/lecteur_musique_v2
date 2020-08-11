@@ -3,7 +3,6 @@ package lecteur_musique.gui;
 import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
@@ -49,9 +48,12 @@ public class MusicCell extends ListCell<Music> {
 	    name.setText(music.getName());
 	    author.setText(music.getAuthor());
 	    duration.setText(music.getStringDuration());
-	    prefWidthProperty().bind(parent.widthProperty().subtract(2));
-	    setMaxWidth(Control.USE_PREF_SIZE);
+	    prefWidthProperty().bind(parent.widthProperty().subtract(Integer.MAX_VALUE));
 	    setGraphic(gridpane);
+	} else {
+	    name.setText("");
+	    author.setText("");
+	    duration.setText("");
 	}
     }
 }
