@@ -81,7 +81,7 @@
                       <Button fx:id="bprecedent" mnemonicParsing="false" onAction="#precedentMusic" />
                       <Button fx:id="bplaypause" mnemonicParsing="false" onAction="#playPause" />
                       <Button fx:id="bnext" mnemonicParsing="false" onAction="#nextMusic" />
-                        <Button fx:id="bloop" mnemonicParsing="false">
+                        <Button fx:id="bloop" mnemonicParsing="false" onAction="#loop">
                            <tooltip>
                               <Tooltip text="Jouer en boucle" />
                            </tooltip></Button>

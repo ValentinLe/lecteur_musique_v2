@@ -93,6 +93,8 @@ public class DashBoardController implements Initializable {
     @FXML
     private HBox contentLabelsPriority; 
     
+    private boolean looping = false;
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 	dashBoard = new DashBoard(
@@ -196,6 +198,11 @@ public class DashBoardController implements Initializable {
     @FXML
     private void shuffleSecondary(ActionEvent e) {
 	dashBoard.shuffleSecondaryQueue();
+    }
+    
+    @FXML
+    private void loop() {
+	looping = !looping;
     }
 
     @FXML
@@ -315,7 +322,11 @@ public class DashBoardController implements Initializable {
 	});
 
 	mediaPlayer.setOnEndOfMedia(() -> {
-	    nextMusic(null);
+	    if (looping) {
+		mediaPlayer.seek(Duration.ZERO);
+	    } else {
+		nextMusic(null);
+	    }
 	});
 	if (isMuted) {
 	    mediaPlayer.setMute(true);
