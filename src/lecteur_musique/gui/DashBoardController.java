@@ -2,7 +2,7 @@ package lecteur_musique.gui;
 
 import java.net.URL;
 import java.nio.file.Paths;
-import java.util.List;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -13,7 +13,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.Slider;
@@ -80,14 +79,13 @@ public class DashBoardController implements Initializable {
 
     @FXML
     private Button bparameters;
-    
-    private ObservableList<Music> observablePriority;
-    
-    private ObservableList<Music> observableSecondary;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-	dashBoard = new DashBoard();
+	dashBoard = new DashBoard(
+		FXCollections.observableList(new ArrayList<>()), 
+		FXCollections.observableList(new ArrayList<>())
+	);
 	isPlaying = false;
 	isPauseChangeValue = false;
 	String folder = "C:\\Users\\Val\\Desktop\\Dossier\\musiques\\";
@@ -112,29 +110,15 @@ public class DashBoardController implements Initializable {
 	    progressTime.setProgress(sliderTime.getValue() / sliderTime.getMax());
 	});
 	
-	
-	observablePriority = FXCollections.observableList(dashBoard.getPriorityQueue());
-	observableSecondary = FXCollections.observableList(dashBoard.getSecondaryQueue());
-	
 	priorityList.setCellFactory(new MusicCellFactory());
 	secondaryList.setCellFactory(new MusicCellFactory());
+	
+	priorityList.setItems((ObservableList<Music>) dashBoard.getPriorityQueue());
+	secondaryList.setItems((ObservableList<Music>) dashBoard.getSecondaryQueue());
 	
 	update();
 	
 	disableDefaultFocusTextField();
-    }
-
-    private ListCell<Music> getListCellMusic() {
-	ListCell<Music> cell = new ListCell<Music>() {
-	    @Override
-	    protected void updateItem(Music music, boolean bln) {
-		super.updateItem(music, bln);
-		if (music != null) {
-		    setText(music.getName() + " -- " + music.getAuthor());
-		}
-	    }
-	};
-	return cell;
     }
 
     private void disableDefaultFocusTextField() {
@@ -180,7 +164,6 @@ public class DashBoardController implements Initializable {
     @FXML
     private void shuffleSecondary(ActionEvent e) {
 	dashBoard.shuffleSecondaryQueue();
-	updateSecondaryList();
     }
 
     @FXML
@@ -247,8 +230,6 @@ public class DashBoardController implements Initializable {
 	    if (index >= 0) {
 		Music music = dashBoard.getMusicAt(dashBoard.getSecondaryQueue(), index);
 		dashBoard.switchToPriority(music);
-		updatePriorityList();
-		updateSecondaryList();
 	    }
 	}
     }
@@ -260,8 +241,6 @@ public class DashBoardController implements Initializable {
 	    if (index >= 0) {
 		Music music = dashBoard.getMusicAt(dashBoard.getPriorityQueue(), index);
 		dashBoard.switchToSecondary(music);
-		updatePriorityList();
-		updateSecondaryList();
 	    }
 	}
     }
@@ -295,8 +274,6 @@ public class DashBoardController implements Initializable {
 	if (isMuted) {
 	    mediaPlayer.setMute(true);
 	}
-	updatePriorityList();
-	updateSecondaryList();
 	updateLabelsMusic();
     }
 
@@ -305,16 +282,6 @@ public class DashBoardController implements Initializable {
 	titleMusic.setText(currentMusic.getName());
 	authorMusic.setText(currentMusic.getAuthor());
 	durationTimeLab.setText(currentMusic.getStringDuration());
-    }
-
-    private void updatePriorityList() {
-	priorityList.getItems().clear();
-	priorityList.setItems(observablePriority);
-    }
-
-    private void updateSecondaryList() {
-	priorityList.getItems().clear();
-	secondaryList.setItems(observableSecondary);
     }
 
 }

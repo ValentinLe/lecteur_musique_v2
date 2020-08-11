@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.Queue;
 
 public class DashBoard {
     
@@ -13,9 +12,13 @@ public class DashBoard {
     private List<Music> priorityQueue;
     private List<Music> secondaryQueue;
 
+    public DashBoard(List<Music> priorityQueue, List<Music> secondaryQueue) {
+	this.priorityQueue = priorityQueue;
+	this.secondaryQueue = secondaryQueue;
+    }
+    
     public DashBoard() {
-	this.priorityQueue = new ArrayList<>();
-	this.secondaryQueue = new ArrayList<>();
+	this(new ArrayList<>(), new ArrayList<>());
     }
 
     public Music getCurrentMusic() {

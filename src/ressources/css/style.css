@@ -78,14 +78,19 @@
   -fx-font-weight: bold;
   -fx-font-family: OpenSans, sans-serif;
   -fx-background-radius: 4px;
+  -fx-padding: 8px;
 }
 
-.list-cell:hover {
+.list-cell:filled:hover {
   -fx-background-color: -accent-color-40;
 }
 
-.list-cell:selected {
+.list-cell:filled:selected {
   -fx-background-color: -accent-color-80;
+}
+
+#author, #duration {
+  -fx-font-weight: normal;
 }
 
 /* GLUE DES VBOX/HBOX */
