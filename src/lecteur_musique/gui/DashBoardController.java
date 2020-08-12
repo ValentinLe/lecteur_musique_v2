@@ -18,7 +18,6 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -82,6 +81,9 @@ public class DashBoardController implements Initializable {
     @FXML
     private Button bplaypause;
 
+    @FXML
+    private Button bloop;
+    
     @FXML
     private Button bmute;
 
@@ -169,7 +171,6 @@ public class DashBoardController implements Initializable {
     @FXML
     private void playPause(ActionEvent event) {
 	switchPlayPause();
-	Image image = null;
 	if (isPlaying) {
 	    bplaypause.setStyle("-fx-background-image: url('/ressources/images/pause.png')");
 	} else {
@@ -203,6 +204,7 @@ public class DashBoardController implements Initializable {
     @FXML
     private void loop() {
 	looping = !looping;
+	lockButton(bloop);
     }
 
     @FXML
@@ -231,6 +233,16 @@ public class DashBoardController implements Initializable {
     @FXML
     private void parameters(ActionEvent e) {
 
+    }
+    
+    private void lockButton(Button button) {
+	String classLocked = "locked";
+	ObservableList<String> classButton = button.getStyleClass();
+	if (!classButton.contains(classLocked)) {
+	    classButton.add(classLocked);
+	} else {
+	    classButton.remove(classLocked);
+	}
     }
 
     private boolean isVerticalPositionnateInTrack(Slider slider, MouseEvent e) {

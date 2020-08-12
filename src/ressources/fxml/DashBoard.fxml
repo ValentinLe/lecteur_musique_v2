@@ -79,9 +79,9 @@
                               <Tooltip text="Mélanger la liste d'attente" />
                            </tooltip></Button>
                       <Button fx:id="bprecedent" mnemonicParsing="false" onAction="#precedentMusic" />
-                      <Button fx:id="bplaypause" mnemonicParsing="false" onAction="#playPause" />
+                      <Button id="bplaypause" fx:id="bplaypause" mnemonicParsing="false" onAction="#playPause" />
                       <Button fx:id="bnext" mnemonicParsing="false" onAction="#nextMusic" />
-                        <Button fx:id="bloop" mnemonicParsing="false" onAction="#loop">
+                        <Button fx:id="bloop" mnemonicParsing="false" onAction="#loop" styleClass="unlocked">
                            <tooltip>
                               <Tooltip text="Jouer en boucle" />
                            </tooltip></Button>
@@ -122,7 +122,7 @@
                      <children>
                         <HBox alignment="CENTER">
                            <children>
-                              <Button fx:id="bmute" mnemonicParsing="false" onAction="#mute" />
+                              <Button fx:id="bmute" mnemonicParsing="false" onAction="#mute" styleClass="button-unmuted" />
                               <StackPane>
                                  <children>
                                     <ProgressBar fx:id="progressVolume" maxWidth="1.7976931348623157E308" progress="1.0">
