@@ -252,6 +252,11 @@ public class DashBoardController implements Initializable {
 	boolean yRespected = paddingY <= e.getY() && e.getY() <= slider.getHeight() - paddingY;
 	return xRespected && yRespected;
     }
+    
+    private void positionnateMusiqueLikeSlider() {
+	double value = sliderTime.getValue();
+	mediaPlayer.seek(new Duration(value * 1000));
+    }
 
     @FXML
     private void sliderTimePressed(MouseEvent e) {
@@ -260,9 +265,7 @@ public class DashBoardController implements Initializable {
 		isPauseChangeValue = true;
 	    }
 	    pause();
-	    Music currentMusic = dashBoard.getCurrentMusic();
-	    double value = sliderTime.getValue();
-	    mediaPlayer.seek(new Duration(value * 1000));
+	    positionnateMusiqueLikeSlider();
 	}
     }
 
@@ -271,6 +274,7 @@ public class DashBoardController implements Initializable {
 	if (isPauseChangeValue) {
 	    play();
 	}
+	positionnateMusiqueLikeSlider();
 	isPauseChangeValue = false;
     }
 

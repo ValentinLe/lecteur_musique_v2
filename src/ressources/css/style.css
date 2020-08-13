@@ -21,6 +21,7 @@
   -fx-font-family: OpenSans, sans-serif;
 }
 
+
 /* SCROLLBARS */
 
 .scroll-bar {
@@ -147,6 +148,7 @@
   -fx-padding: 8px;
 }
 
+
 /* LABEL */
 
 .label {
@@ -215,6 +217,9 @@
 
 #bplaypause {
   -fx-background-image: url('/ressources/images/play.png');
+  -fx-border-color: rgba(255, 255, 255, 0.2);
+  -fx-border-width: 2px;
+  -fx-border-radius: 100%;
 }
 
 #bnext {
