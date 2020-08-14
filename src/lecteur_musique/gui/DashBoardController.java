@@ -28,8 +28,9 @@ import lecteur_musique.model.DashBoard;
 import lecteur_musique.model.Music;
 import lecteur_musique.model.musicreader.MP3MusicReader;
 import lecteur_musique.model.musicreader.MusicReader;
+import lecteur_musique.model.observer.DashboardListener;
 
-public class DashBoardController implements Initializable {
+public class DashBoardController implements Initializable, DashboardListener {
 
     private MediaPlayer mediaPlayer;
     private DashBoard dashBoard;
@@ -103,6 +104,7 @@ public class DashBoardController implements Initializable {
 		FXCollections.observableList(new ArrayList<>()),
 		FXCollections.observableList(new ArrayList<>())
 	);
+	dashBoard.addListener(this);
 	isPlaying = false;
 	isPauseChangeValue = false;
 	String folder = "C:\\Users\\Val\\Desktop\\Dossier\\musiques\\";
@@ -113,8 +115,6 @@ public class DashBoardController implements Initializable {
 	} catch (Exception e) {
 	    e.printStackTrace();
 	}
-	dashBoard.shuffleSecondaryQueue();
-	dashBoard.nextMusic();
 
 	sliderVolume.valueProperty().addListener((observable, oldValue, newValue) -> {
 	    if (mediaPlayer != null) {
@@ -152,9 +152,10 @@ public class DashBoardController implements Initializable {
 	    });
 	});
 
-	update();
-
 	disableDefaultFocusTextField();
+	
+	dashBoard.shuffleSecondaryQueue();
+	dashBoard.nextMusic();
     }
 
     private void disableDefaultFocusTextField() {
@@ -210,13 +211,11 @@ public class DashBoardController implements Initializable {
     @FXML
     private void nextMusic(ActionEvent e) {
 	dashBoard.nextMusic();
-	update();
     }
 
     @FXML
     private void precedentMusic(ActionEvent e) {
 	dashBoard.precedentMusic();
-	update();
     }
 
     @FXML
@@ -285,7 +284,6 @@ public class DashBoardController implements Initializable {
 	    if (index >= 0) {
 		Music music = dashBoard.getMusicAt(dashBoard.getSecondaryQueue(), index);
 		dashBoard.switchToPriority(music);
-		updateLabelsMusic();
 	    }
 	}
     }
@@ -297,7 +295,6 @@ public class DashBoardController implements Initializable {
 	    if (index >= 0) {
 		Music music = filteredList.get(index);
 		dashBoard.switchToPriority(music);
-		updateLabelsMusic();
 	    }
 	}
     }
@@ -309,7 +306,6 @@ public class DashBoardController implements Initializable {
 	    if (index >= 0) {
 		Music music = dashBoard.getMusicAt(dashBoard.getPriorityQueue(), index);
 		dashBoard.switchToSecondary(music);
-		updateLabelsMusic();
 	    }
 	}
     }
@@ -360,9 +356,21 @@ public class DashBoardController implements Initializable {
 	    durationPriority.setText("");
 	    contentLabelsPriority.setSpacing(0);
 	}
-	titleMusic.setText(currentMusic.getName());
-	authorMusic.setText(currentMusic.getAuthor());
-	durationTimeLab.setText(currentMusic.getStringDuration());
+	if (currentMusic != null) {
+	    titleMusic.setText(currentMusic.getName());
+	    authorMusic.setText(currentMusic.getAuthor());
+	    durationTimeLab.setText(currentMusic.getStringDuration());
+	}
+    }
+
+    @Override
+    public void queuesHasChanged() {
+	updateLabelsMusic();
+    }
+
+    @Override
+    public void currentMusicHasChanged() {
+	update();
     }
 
 }

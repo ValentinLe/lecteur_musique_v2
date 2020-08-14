@@ -4,17 +4,24 @@ package lecteur_musique.model;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import lecteur_musique.model.observer.AbstractListenableDashboard;
 
-public class DashBoard {
+
+public class DashBoard extends AbstractListenableDashboard {
     
     private Music currentMusic;
     private List<Music> priorityQueue;
     private List<Music> secondaryQueue;
+    private Set<Music> musicsAddedToPriorityQueue;
 
     public DashBoard(List<Music> priorityQueue, List<Music> secondaryQueue) {
 	this.priorityQueue = priorityQueue;
 	this.secondaryQueue = secondaryQueue;
+	this.musicsAddedToPriorityQueue = new HashSet<>();
+	
     }
     
     public DashBoard() {
@@ -68,24 +75,30 @@ public class DashBoard {
 	    } else {
 		currentMusic = secondaryQueue.remove(0);
 	    }
+	    if (priorityQueue.isEmpty()) {
+		musicsAddedToPriorityQueue.clear();
+	    }
+	    allHasChanged();
 	}
     }
     
     public void precedentMusic() {
 	if (!secondaryQueue.isEmpty() && currentMusic != null) {
 	    Music lastMusic = secondaryQueue.get(secondaryQueue.size() - 1);
-	    if (!priorityQueue.isEmpty()) {
+	    if (!priorityQueue.isEmpty() && musicsAddedToPriorityQueue.contains(lastMusic)) {
 		priorityQueue.add(0, currentMusic);
 	    } else {
 		secondaryQueue.add(0, currentMusic);
 	    }
 	    currentMusic = lastMusic;
-	    secondaryQueue.remove(currentMusic);
+	    secondaryQueue.remove(lastMusic);
+	    allHasChanged();
 	}
     }
     
     public void addMusic(Music music) {
 	this.secondaryQueue.add(music);
+	queuesHasChanged();
     }
     
     public void addAllMusic(Collection<Music> musics) {
@@ -95,10 +108,14 @@ public class DashBoard {
     }
     
     public boolean switchToPriority(Music music) {
+	musicsAddedToPriorityQueue.add(music);
 	return switchMusic(secondaryQueue, priorityQueue, music);
     }
     
     public boolean switchToSecondary(Music music) {
+	if (musicsAddedToPriorityQueue.contains(music)) {
+	    musicsAddedToPriorityQueue.remove(music);
+	}
 	return switchMusic(priorityQueue, secondaryQueue, music);
     }
     
@@ -106,6 +123,7 @@ public class DashBoard {
 	if (startQueue.contains(music)) {
 	    startQueue.remove(music);
 	    endQueue.add(music);
+	    queuesHasChanged();
 	    return true;
 	} else {
 	    return false;
@@ -114,6 +132,7 @@ public class DashBoard {
     
     public void shuffleSecondaryQueue() {
 	Collections.shuffle(secondaryQueue);
+	queuesHasChanged();
     }
     
     public long getSumDurationOfPriorityQueue() {

@@ -61,7 +61,7 @@
                      <VBox.margin>
                         <Insets />
                      </VBox.margin></Label>
-                  <Label fx:id="authorMusic" text="Autheur">
+                  <Label fx:id="authorMusic" text="Auteur">
                      <VBox.margin>
                         <Insets top="8.0" />
                      </VBox.margin></Label>
