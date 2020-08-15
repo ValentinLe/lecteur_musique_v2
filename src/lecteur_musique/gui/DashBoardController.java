@@ -25,6 +25,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
+import lecteur_musique.config.Config;
+import lecteur_musique.config.ConfigParams;
 import lecteur_musique.model.Dashboard;
 import lecteur_musique.model.Music;
 import lecteur_musique.model.musicreader.MP3MusicReader;
@@ -101,6 +103,8 @@ public class DashBoardController implements Initializable, DashboardListener {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+	Config config = new Config();
+	
 	dashboard = new Dashboard(
 		FXCollections.observableList(new ArrayList<>()),
 		FXCollections.observableList(new ArrayList<>())
@@ -108,11 +112,12 @@ public class DashBoardController implements Initializable, DashboardListener {
 	dashboard.addListener(this);
 	isPlaying = false;
 	isPauseChangeValue = false;
-	String folder = "C:\\Users\\Val\\Desktop\\Dossier\\test\\";
+	config.setValueOf(ConfigParams.MUSIC_FOLDER_KEY, "C:\\Users\\Val\\Desktop\\Dossier\\musiques\\");
+	String musicFolder = config.getValueOf(ConfigParams.MUSIC_FOLDER_KEY);
 
 	MusicReader reader = new MP3MusicReader();
 	try {
-	    dashboard.addAllMusic(reader.read(folder));
+	    dashboard.addAllMusic(reader.read(musicFolder));
 	} catch (Exception e) {
 	    e.printStackTrace();
 	}

@@ -2,8 +2,6 @@ package lecteur_musique.gui;
 
 import java.io.IOException;
 import java.util.List;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -11,9 +9,7 @@ import javafx.scene.Node;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
 import javafx.scene.input.ClipboardContent;
-import javafx.scene.input.DataFormat;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.GridPane;
@@ -39,7 +35,7 @@ public class MusicListCell extends ListCell<Music> {
     private List<Music> queue;
 
     private boolean draggable;
-    
+
     final private String separatorData = "-";
 
     public MusicListCell(Dashboard dashboard, List<Music> queue, boolean draggable) {
@@ -60,11 +56,7 @@ public class MusicListCell extends ListCell<Music> {
 		Node cell = (Node) e.getSource();
 		dragboard.setDragView(cell.snapshot(null, null));
 		ClipboardContent content = new ClipboardContent();
-		String strContent = "";
-		strContent += Integer.toString(queue.indexOf(getItem())) + separatorData;
-		strContent += Integer.toString(items.hashCode());
-		
-		content.putString(strContent);
+		content.putString(Integer.toString(queue.indexOf(getItem())));
 		dragboard.setContent(content);
 		e.consume();
 	    });
@@ -84,11 +76,11 @@ public class MusicListCell extends ListCell<Music> {
 		    String[] data = db.getString().split(separatorData);
 		    int hoverIndex = items.indexOf(getItem());
 		    int dragIndex = Integer.parseInt(data[0]);
-		    
+
 		    List<Music> startQueue = ((MusicListCell) e.getGestureSource()).getQueue();
 		    List<Music> endQueue = startQueue;
 		    Music musicHover = getItem();
-		    
+
 		    if (!startQueue.contains(musicHover)) {
 			endQueue = dashboard.getOtherQueue(startQueue);
 		    }
@@ -109,7 +101,7 @@ public class MusicListCell extends ListCell<Music> {
 	    });
 	}
     }
-    
+
     public List<Music> getQueue() {
 	return queue;
     }
