@@ -9,7 +9,7 @@ public class Main {
     public static void main(String[] args) {
 	String folder = "C:\\Users\\Val\\Desktop\\Dossier\\musiques\\";
 	MusicReader reader = new MP3MusicReader();
-	DashBoard dashboard = new DashBoard();
+	Dashboard dashboard = new Dashboard();
 	try {
 	    dashboard.addAllMusic(reader.read(folder));
 	} catch (Exception e) {

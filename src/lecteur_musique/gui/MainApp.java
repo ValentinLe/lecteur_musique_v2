@@ -14,7 +14,7 @@ public class MainApp extends Application {
 	primaryStage.setMaximized(true);
 
 	// Add to scene
-	Parent root = FXMLLoader.load(getClass().getResource("/ressources/fxml/DashBoard.fxml"));
+	Parent root = FXMLLoader.load(getClass().getResource("/ressources/fxml/Dashboard.fxml"));
 	Scene scene = new Scene(root);
 	scene.getStylesheets().add(getClass().getResource("/ressources/css/style.css").toString());
 

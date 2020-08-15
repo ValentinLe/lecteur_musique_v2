@@ -10,21 +10,21 @@ import java.util.Set;
 import lecteur_musique.model.observer.AbstractListenableDashboard;
 
 
-public class DashBoard extends AbstractListenableDashboard {
+public class Dashboard extends AbstractListenableDashboard {
     
     private Music currentMusic;
     private List<Music> priorityQueue;
     private List<Music> secondaryQueue;
     private Set<Music> musicsAddedToPriorityQueue;
 
-    public DashBoard(List<Music> priorityQueue, List<Music> secondaryQueue) {
+    public Dashboard(List<Music> priorityQueue, List<Music> secondaryQueue) {
 	this.priorityQueue = priorityQueue;
 	this.secondaryQueue = secondaryQueue;
 	this.musicsAddedToPriorityQueue = new HashSet<>();
 	
     }
     
-    public DashBoard() {
+    public Dashboard() {
 	this(new ArrayList<>(), new ArrayList<>());
     }
 
@@ -38,6 +38,14 @@ public class DashBoard extends AbstractListenableDashboard {
 
     public List<Music> getSecondaryQueue() {
 	return secondaryQueue;
+    }
+    
+    public List<Music> getOtherQueue(List<Music> queue) {
+	if (getPriorityQueue() == queue) {
+	    return getSecondaryQueue();
+	} else {
+	    return getPriorityQueue();
+	}
     }
     
     public Music getMusicAt(List<Music> queue, int index) {
