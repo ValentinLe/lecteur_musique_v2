@@ -108,7 +108,7 @@ public class DashBoardController implements Initializable, DashboardListener {
 	dashboard.addListener(this);
 	isPlaying = false;
 	isPauseChangeValue = false;
-	String folder = "C:\\Users\\Val\\Desktop\\Dossier\\musiques\\";
+	String folder = "C:\\Users\\Val\\Desktop\\Dossier\\test\\";
 
 	MusicReader reader = new MP3MusicReader();
 	try {

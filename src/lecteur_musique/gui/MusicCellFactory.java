@@ -21,6 +21,6 @@ public class MusicCellFactory implements Callback<ListView<Music>, ListCell<Musi
     
     @Override
     public ListCell<Music> call(ListView<Music> param) {
-	return new MusicListCell(param, dashboard, queue, draggable);
+	return new MusicListCell(dashboard, queue, draggable);
     }
 }

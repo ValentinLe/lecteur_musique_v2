@@ -34,17 +34,16 @@ public class MusicListCell extends ListCell<Music> {
     @FXML
     private GridPane gridpane;
 
-    private ListView<Music> parent;
-
     private Dashboard dashboard;
 
     private List<Music> queue;
 
     private boolean draggable;
+    
+    final private String separatorData = "-";
 
-    public MusicListCell(ListView<Music> parent, Dashboard dashboard, List<Music> queue, boolean draggable) {
+    public MusicListCell(Dashboard dashboard, List<Music> queue, boolean draggable) {
 	loadFXML();
-	this.parent = parent;
 	this.dashboard = dashboard;
 	this.queue = queue;
 	this.draggable = draggable;
@@ -61,13 +60,17 @@ public class MusicListCell extends ListCell<Music> {
 		Node cell = (Node) e.getSource();
 		dragboard.setDragView(cell.snapshot(null, null));
 		ClipboardContent content = new ClipboardContent();
-		content.putString(Integer.toString(queue.indexOf(getItem())));
+		String strContent = "";
+		strContent += Integer.toString(queue.indexOf(getItem())) + separatorData;
+		strContent += Integer.toString(items.hashCode());
+		
+		content.putString(strContent);
 		dragboard.setContent(content);
 		e.consume();
 	    });
 
 	    setOnDragOver((e) -> {
-		if (e.getDragboard().hasString()) {
+		if (e.getGestureSource() != this && e.getDragboard().hasString()) {
 		    e.acceptTransferModes(TransferMode.COPY_OR_MOVE);
 		}
 		e.consume();
@@ -78,30 +81,37 @@ public class MusicListCell extends ListCell<Music> {
 		boolean success = false;
 		if (db.hasString()) {
 		    ObservableList<Music> items = getListView().getItems();
+		    String[] data = db.getString().split(separatorData);
 		    int hoverIndex = items.indexOf(getItem());
-		    int dragIndex = Integer.parseInt(db.getString());
+		    int dragIndex = Integer.parseInt(data[0]);
 		    
-		    List<Music> endQueue = getListView().getItems();
-		    List<Music> startQueue = endQueue;
-		    if (e.getGestureSource() != e.getGestureTarget()) {
-			startQueue = dashboard.getOtherQueue(endQueue);
+		    List<Music> startQueue = ((MusicListCell) e.getGestureSource()).getQueue();
+		    List<Music> endQueue = startQueue;
+		    Music musicHover = getItem();
+		    
+		    if (!startQueue.contains(musicHover)) {
+			endQueue = dashboard.getOtherQueue(startQueue);
 		    }
 		    Music musicDragged = startQueue.get(dragIndex);
 		    if (getItem() == null || !musicDragged.equals(getItem())) {
+			startQueue.remove(musicDragged);
 			if (hoverIndex < 0) {
 			    endQueue.add(musicDragged);
 			} else {
 			    endQueue.add(hoverIndex, musicDragged);
 			}
-			startQueue.remove(musicDragged);
 		    }
 		    success = true;
-		    parent.getSelectionModel().select(hoverIndex);
+		    getListView().getSelectionModel().select(hoverIndex);
 		}
 		e.setDropCompleted(success);
 		e.consume();
 	    });
 	}
+    }
+    
+    public List<Music> getQueue() {
+	return queue;
     }
 
     private void loadFXML() {
@@ -122,7 +132,7 @@ public class MusicListCell extends ListCell<Music> {
 	    name.setText(music.getName());
 	    author.setText(music.getAuthor());
 	    duration.setText(music.getStringDuration());
-	    prefWidthProperty().bind(parent.widthProperty().subtract(Integer.MAX_VALUE));
+	    prefWidthProperty().bind(getListView().widthProperty().subtract(Integer.MAX_VALUE));
 	    setGraphic(gridpane);
 	} else {
 	    name.setText("");
