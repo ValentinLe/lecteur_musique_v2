@@ -108,7 +108,7 @@ public class MusicListCell extends ListCell<Music> {
 
     private void loadFXML() {
 	try {
-	    FXMLLoader loader = new FXMLLoader(getClass().getResource("/ressources/fxml/music_cell.fxml"));
+	    FXMLLoader loader = new FXMLLoader(getClass().getResource("/ressources/fxml/MusicCell.fxml"));
 	    loader.setController(this);
 	    loader.load();
 	} catch (IOException e) {

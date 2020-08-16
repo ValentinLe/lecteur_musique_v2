@@ -33,7 +33,12 @@ public class Config {
     }
 
     public boolean write() {
-	return configWriter.write(mapConfig, configFileName);
+	try {
+	    return ConfigWriter.write(mapConfig, configFileName);
+	} catch (Exception e) {
+	    e.printStackTrace();
+	}
+	return false;
     }
     
     @Override
@@ -51,6 +56,5 @@ public class Config {
     
     public void setValueOf(String configKey, String configValue) {
 	mapConfig.put(configKey, configValue);
-	write();
     }
 }

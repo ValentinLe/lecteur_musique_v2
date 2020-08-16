@@ -217,7 +217,7 @@
 
 #bplaypause {
   -fx-background-image: url('/ressources/images/play.png');
-  -fx-border-color: rgba(255, 255, 255, 0.2);
+  -fx-border-color: rgba(255, 255, 255, 0.25);
   -fx-border-width: 2px;
   -fx-border-radius: 100%;
 }
@@ -230,16 +230,12 @@
   -fx-background-image: url('/ressources/images/loop.png');
 }
 
-#bparameters {
-  -fx-background-image: url('/ressources/images/config.png');
-}
-
-.button-unmuted {
+#bmute {
   -fx-background-image: url('/ressources/images/soundOn.png');
 }
 
-.button-muted {
-  -fx-background-image: url('/ressources/images/soundOff.png');
+#bparameters {
+  -fx-background-image: url('/ressources/images/config.png');
 }
 
 .locked {

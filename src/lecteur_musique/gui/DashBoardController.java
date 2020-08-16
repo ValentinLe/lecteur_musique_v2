@@ -1,10 +1,13 @@
 package lecteur_musique.gui;
 
+import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
@@ -12,7 +15,10 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -24,6 +30,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import lecteur_musique.config.Config;
 import lecteur_musique.config.ConfigParams;
@@ -60,10 +67,10 @@ public class DashBoardController implements Initializable, DashboardListener {
 
     @FXML
     private ListView<Music> secondaryList;
-    
+
     @FXML
     private Label durationPriority;
-    
+
     @FXML
     private Label titleMusic;
 
@@ -87,7 +94,7 @@ public class DashBoardController implements Initializable, DashboardListener {
 
     @FXML
     private Button bloop;
-    
+
     @FXML
     private Button bmute;
 
@@ -95,16 +102,16 @@ public class DashBoardController implements Initializable, DashboardListener {
     private Button bparameters;
 
     private FilteredList<Music> filteredList;
-    
+
     @FXML
-    private HBox contentLabelsPriority; 
-    
+    private HBox contentLabelsPriority;
+
     private boolean looping = false;
-    
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 	Config config = new Config();
-	
+
 	dashboard = new Dashboard(
 		FXCollections.observableList(new ArrayList<>()),
 		FXCollections.observableList(new ArrayList<>())
@@ -112,14 +119,13 @@ public class DashBoardController implements Initializable, DashboardListener {
 	dashboard.addListener(this);
 	isPlaying = false;
 	isPauseChangeValue = false;
+	
 	config.setValueOf(ConfigParams.MUSIC_FOLDER_KEY, "C:\\Users\\Val\\Desktop\\Dossier\\musiques\\");
-	String musicFolder = config.getValueOf(ConfigParams.MUSIC_FOLDER_KEY);
 
-	MusicReader reader = new MP3MusicReader();
-	try {
-	    dashboard.addAllMusic(reader.read(musicFolder));
-	} catch (Exception e) {
-	    e.printStackTrace();
+	String musicFolder = config.getValueOf(ConfigParams.MUSIC_FOLDER_KEY);
+	bmute.setText(musicFolder);
+	if (musicFolder != null) {
+	    readMusics(musicFolder);
 	}
 
 	sliderVolume.valueProperty().addListener((observable, oldValue, newValue) -> {
@@ -132,20 +138,18 @@ public class DashBoardController implements Initializable, DashboardListener {
 	sliderTime.valueProperty().addListener((observable, oldDuration, newDuration) -> {
 	    progressTime.setProgress(sliderTime.getValue() / sliderTime.getMax());
 	});
-	
-	
+
 	ObservableList<Music> observableSortedMusics = FXCollections.observableList(dashboard.getSortedMusics());
 	ObservableList<Music> observablePriority = (ObservableList<Music>) dashboard.getPriorityQueue();
 	ObservableList<Music> observableSecondary = (ObservableList<Music>) dashboard.getSecondaryQueue();
-	
+
 	MusicCellFactory searchFactory = new MusicCellFactory(dashboard, observableSortedMusics, false);
 	MusicCellFactory priorityFactory = new MusicCellFactory(dashboard, dashboard.getPriorityQueue(), true);
 	MusicCellFactory secondaryFactory = new MusicCellFactory(dashboard, dashboard.getSecondaryQueue(), true);
-	
+
 	searchList.setCellFactory(searchFactory);
 	priorityList.setCellFactory(priorityFactory);
 	secondaryList.setCellFactory(secondaryFactory);
-
 
 	priorityList.setItems(observablePriority);
 	secondaryList.setItems(observableSecondary);
@@ -159,17 +163,17 @@ public class DashBoardController implements Initializable, DashboardListener {
 		    return true;
 		}
 		String lowerCaseSearch = searchinput.getText().toLowerCase();
-		return music.getName().toLowerCase().contains(lowerCaseSearch) ||
-			music.getAuthor().toLowerCase().contains(lowerCaseSearch);
+		return music.getName().toLowerCase().contains(lowerCaseSearch)
+			|| music.getAuthor().toLowerCase().contains(lowerCaseSearch);
 	    });
 	});
-	
+
 	disableDefaultFocusTextField();
-	
+
 	dashboard.shuffleSecondaryQueue();
 	dashboard.nextMusic();
     }
-    
+
     private void disableDefaultFocusTextField() {
 	final BooleanProperty firstTime = new SimpleBooleanProperty(true);
 
@@ -179,6 +183,15 @@ public class DashBoardController implements Initializable, DashboardListener {
 		firstTime.setValue(false); // Variable value changed for future references 
 	    }
 	});
+    }
+
+    public void readMusics(String musicFolder) {
+	MusicReader reader = new MP3MusicReader();
+	try {
+	    dashboard.addAllMusic(reader.read(musicFolder));
+	} catch (Exception e) {
+	    e.printStackTrace();
+	}
     }
 
     @FXML
@@ -213,7 +226,7 @@ public class DashBoardController implements Initializable, DashboardListener {
     private void shuffleSecondary(ActionEvent e) {
 	dashboard.shuffleSecondaryQueue();
     }
-    
+
     @FXML
     private void loop() {
 	looping = !looping;
@@ -239,13 +252,23 @@ public class DashBoardController implements Initializable, DashboardListener {
 	    mediaPlayer.setMute(false);
 	    bmute.setStyle("-fx-background-image: url('/ressources/images/soundOn.png')");
 	}
+	lockButton(bmute);
     }
 
     @FXML
     private void parameters(ActionEvent e) {
-
+	try {
+	    Parent root = FXMLLoader.load(getClass().getResource("/ressources/fxml/Parameters.fxml"));
+	    Stage stage = new Stage();
+	    stage.setTitle("Paramètres");
+	    stage.setResizable(false);
+	    stage.setScene(new Scene(root, 500, 200));
+	    stage.show();
+	} catch (IOException ex) {
+	    ex.printStackTrace();
+	}
     }
-    
+
     private void lockButton(Button button) {
 	String classLocked = "locked";
 	ObservableList<String> classButton = button.getStyleClass();
@@ -263,7 +286,7 @@ public class DashBoardController implements Initializable, DashboardListener {
 	boolean yRespected = paddingY <= e.getY() && e.getY() <= slider.getHeight() - paddingY;
 	return xRespected && yRespected;
     }
-    
+
     private void positionnateMusiqueLikeSlider() {
 	double value = sliderTime.getValue();
 	mediaPlayer.seek(new Duration(value * 1000));
@@ -297,10 +320,10 @@ public class DashBoardController implements Initializable, DashboardListener {
 		Music music = dashboard.getMusicAt(dashboard.getSecondaryQueue(), index);
 		dashboard.switchToPriority(music);
 	    }
-	    
+
 	}
     }
-    
+
     @FXML
     private void moveToPrioritySearched(MouseEvent e) {
 	if (Math.floorMod(e.getClickCount(), 2) == 0) {

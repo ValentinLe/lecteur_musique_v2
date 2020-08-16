@@ -122,7 +122,7 @@
                      <children>
                         <HBox alignment="CENTER">
                            <children>
-                              <Button fx:id="bmute" mnemonicParsing="false" onAction="#mute" styleClass="button-unmuted" />
+                              <Button fx:id="bmute" mnemonicParsing="false" onAction="#mute" />
                               <StackPane>
                                  <children>
                                     <ProgressBar fx:id="progressVolume" maxWidth="1.7976931348623157E308" progress="1.0">
