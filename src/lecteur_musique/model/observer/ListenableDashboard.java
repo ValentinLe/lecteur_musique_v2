@@ -11,4 +11,6 @@ public interface ListenableDashboard {
     
     public void currentMusicHasChanged();
     
+    public void contentHasChanged();
+    
 }

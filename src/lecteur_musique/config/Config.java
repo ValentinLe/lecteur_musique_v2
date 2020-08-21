@@ -43,6 +43,7 @@ public class Config {
     
     @Override
     protected void finalize() {
+	System.out.println("WRITE");
 	write();
     }
     

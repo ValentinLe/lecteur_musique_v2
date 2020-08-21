@@ -86,7 +86,8 @@ public class Dashboard extends AbstractListenableDashboard {
 	    if (priorityQueue.isEmpty()) {
 		musicsAddedToPriorityQueue.clear();
 	    }
-	    allHasChanged();
+	    queuesHasChanged();
+	    currentMusicHasChanged();
 	}
     }
     
@@ -100,19 +101,27 @@ public class Dashboard extends AbstractListenableDashboard {
 	    }
 	    currentMusic = lastMusic;
 	    secondaryQueue.remove(lastMusic);
-	    allHasChanged();
+	    queuesHasChanged();
+	    currentMusicHasChanged();
 	}
     }
     
     public void addMusic(Music music) {
 	this.secondaryQueue.add(music);
-	queuesHasChanged();
+	contentHasChanged();
     }
     
     public void addAllMusic(Collection<Music> musics) {
 	for (Music music : musics) {
 	    addMusic(music);
 	}
+    }
+    
+    public void clear() {
+	this.currentMusic = null;
+	this.priorityQueue.clear();
+	this.secondaryQueue.clear();
+	allHasChanged();
     }
     
     public boolean switchToPriority(Music music) {

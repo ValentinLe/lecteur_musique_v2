@@ -8,15 +8,14 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-
-<VBox spacing="16.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<VBox spacing="16.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lecteur_musique.gui.ParametersController">
    <children>
       <VBox spacing="8.0">
          <children>
             <Label text="Chemin des musiques :" />
             <HBox spacing="8.0">
                <children>
-                  <TextField HBox.hgrow="ALWAYS" />
+                  <TextField fx:id="musicFolder" HBox.hgrow="ALWAYS" />
                   <Button mnemonicParsing="false" text="Parcourir..." />
                </children>
             </HBox>
@@ -26,8 +25,8 @@
       <HBox spacing="8.0">
          <children>
             <Separator HBox.hgrow="ALWAYS" />
-            <Button mnemonicParsing="false" text="Valider" />
-            <Button mnemonicParsing="false" text="Annuler" />
+            <Button mnemonicParsing="false" onAction="#valid" text="Valider" />
+            <Button mnemonicParsing="false" onAction="#cancel" text="Annuler" />
          </children>
       </HBox>
    </children>

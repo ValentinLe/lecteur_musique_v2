@@ -24,9 +24,11 @@ public class ConfigWriter {
 	File configFile = new File(ConfigWriter.class.getResource(configFileName).getFile());
 	try {
 	    if (!configFile.exists()) {
+		System.out.println("oked");
 		configFile.createNewFile();
 	    }
-	    FileWriter fw = new FileWriter(configFile);
+	    System.out.println(configFile.getAbsolutePath());
+	    FileWriter fw = new FileWriter(configFile.getAbsolutePath());
 	    BufferedWriter br = new BufferedWriter(fw);
 	    br.write(sb.toString());
 	    br.close();

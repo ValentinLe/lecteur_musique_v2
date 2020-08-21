@@ -57,11 +57,11 @@
          <children>
             <VBox alignment="CENTER_LEFT" prefWidth="300.0">
                <children>
-                  <Label fx:id="titleMusic" text="Titre">
+                  <Label fx:id="titleMusic">
                      <VBox.margin>
                         <Insets />
                      </VBox.margin></Label>
-                  <Label fx:id="authorMusic" text="Auteur">
+                  <Label fx:id="authorMusic">
                      <VBox.margin>
                         <Insets top="8.0" />
                      </VBox.margin></Label>

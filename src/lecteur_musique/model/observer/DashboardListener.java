@@ -7,4 +7,6 @@ public interface DashboardListener {
     
     public void currentMusicHasChanged();
     
+    public void contentHasChanged();
+    
 }

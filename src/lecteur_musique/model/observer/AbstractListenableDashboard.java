@@ -36,9 +36,17 @@ public abstract class AbstractListenableDashboard implements ListenableDashboard
 	}
     }
     
+    @Override
+    public void contentHasChanged() {
+	for (DashboardListener l : listeners) {
+	    l.contentHasChanged();
+	}
+    }
+    
     public void allHasChanged() {
 	queuesHasChanged();
 	currentMusicHasChanged();
+	contentHasChanged();
     }
     
 }
