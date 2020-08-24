@@ -1,25 +1,5 @@
 
-@font-face {
-  font-family: OpenSans;
-  src: url('/ressources/fonts/OpenSans/OpenSans-Regular.ttf');
-}
-
-* {
-  -primary-color: "#455A64";
-  -primary-color-light: "#607D8B";
-  -accent-color: "#FF5722";
-  -accent-color-40: rgba(255, 87, 34, 0.3);
-  -accent-color-80: rgba(255, 87, 34, 0.7);
-  -text-color: white;
-}
-
-.root {
-  -fx-focus-color: transparent;
-  -fx-faint-focus-color: transparent;
-  -fx-border-color: transparent;
-  -fx-background-color: -primary-color;
-  -fx-font-family: OpenSans, sans-serif;
-}
+@import "all.css";
 
 
 /* SCROLLBARS */
@@ -59,7 +39,7 @@
 
 /* LISTVIEW */
 
-#searchList, #priorityList, #secondaryList, #searchinput {
+#searchList, #priorityList, #secondaryList {
   -fx-background-radius: 6px;
   -fx-background-insets: 0;
   -fx-padding: 4px;
@@ -73,14 +53,11 @@
 }
 
 #searchinput {
-  -fx-text-box-border: transparent;
-  -fx-text-fill: -text-color;
-  -fx-font-weight: bold;
-  -fx-padding: 6px 8px 6px 32px;
   -fx-background-image: url('/ressources/images/search.png');
   -fx-background-repeat: no-repeat;
   -fx-background-position: 8px center;
   -fx-background-size: 18px;
+  -fx-padding: 6px 8px 6px 32px;
 }
 
 .list-cell {
@@ -102,11 +79,6 @@
 
 #author, #duration {
   -fx-font-weight: normal;
-}
-
-/* GLUE DES VBOX/HBOX */
-.separator {
-  -fx-opacity: 0;
 }
 
 
@@ -151,11 +123,6 @@
 
 /* LABEL */
 
-.label {
-  -fx-text-fill: -text-color;
-  -fx-font-weight: bold;
-}
-
 .musicTime {
   -fx-font-weight: normal;
   -fx-font-size: 15px;
@@ -175,18 +142,6 @@
 
 
 /* BUTTON */
-
-.button {
-  -fx-background-color: transparent;
-}
-
-.button:hover {
-  -fx-background-color: rgba(255,255,255,0.1);
-}
-
-.button:pressed {
-  -fx-background-color: rgba(255,255,255,0.2);
-}
 
 #bshuffle, #bprecedent, #bplaypause, #bnext, #bloop, #bparameters, #bmute {
   -fx-background-radius: 100%;
@@ -217,7 +172,7 @@
 
 #bplaypause {
   -fx-background-image: url('/ressources/images/play.png');
-  -fx-border-color: rgba(255, 255, 255, 0.25);
+  -fx-border-color: -light-gray;
   -fx-border-width: 2px;
   -fx-border-radius: 100%;
 }

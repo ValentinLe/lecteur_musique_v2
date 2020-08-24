@@ -9,6 +9,7 @@ import javafx.scene.Node;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
@@ -34,18 +35,19 @@ public class MusicListCell extends ListCell<Music> {
 
     private List<Music> queue;
 
-    private boolean draggable;
-
+    private boolean draggble;
+    
     final private String separatorData = "-";
 
     public MusicListCell(Dashboard dashboard, List<Music> queue, boolean draggable) {
 	loadFXML();
 	this.dashboard = dashboard;
 	this.queue = queue;
-	this.draggable = draggable;
-
+	this.draggble = draggable;
+	
 	if (draggable) {
 	    setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+	    
 	    setOnDragDetected((e) -> {
 		if (getItem() == null) {
 		    return;
@@ -62,8 +64,8 @@ public class MusicListCell extends ListCell<Music> {
 	    });
 
 	    setOnDragOver((e) -> {
-		if (e.getGestureSource() != this && e.getDragboard().hasString()) {
-		    e.acceptTransferModes(TransferMode.COPY_OR_MOVE);
+		if (e.getDragboard().hasString()) {
+		    e.acceptTransferModes(TransferMode.MOVE);
 		}
 		e.consume();
 	    });
@@ -76,12 +78,13 @@ public class MusicListCell extends ListCell<Music> {
 		    String[] data = db.getString().split(separatorData);
 		    int hoverIndex = items.indexOf(getItem());
 		    int dragIndex = Integer.parseInt(data[0]);
-
+		    // https://stackoverflow.com/questions/49922833/javafx-listview-not-active
+		    // https://stackoverflow.com/questions/25390888/dragging-and-dropping-list-view-items-between-different-javafx-windows
 		    List<Music> startQueue = ((MusicListCell) e.getGestureSource()).getQueue();
 		    List<Music> endQueue = startQueue;
 		    Music musicHover = getItem();
-
-		    if (!startQueue.contains(musicHover)) {
+		    
+		    if (!getQueue().equals(startQueue)) {
 			endQueue = dashboard.getOtherQueue(startQueue);
 		    }
 		    Music musicDragged = startQueue.get(dragIndex);
@@ -89,6 +92,7 @@ public class MusicListCell extends ListCell<Music> {
 			startQueue.remove(musicDragged);
 			if (hoverIndex < 0) {
 			    endQueue.add(musicDragged);
+			    hoverIndex = endQueue.size() - 1;
 			} else {
 			    endQueue.add(hoverIndex, musicDragged);
 			}

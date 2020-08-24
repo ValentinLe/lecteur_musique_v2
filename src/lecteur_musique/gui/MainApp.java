@@ -16,7 +16,7 @@ public class MainApp extends Application {
 	// Add to scene
 	Parent root = FXMLLoader.load(getClass().getResource("/ressources/fxml/Dashboard.fxml"));
 	Scene scene = new Scene(root);
-	scene.getStylesheets().add(getClass().getResource("/ressources/css/style.css").toString());
+	scene.getStylesheets().add(getClass().getResource("/ressources/css/main.css").toString());
 
 	// Show the stage
 	primaryStage.setTitle("Media Player");

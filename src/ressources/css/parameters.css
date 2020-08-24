@@ -1,0 +1,11 @@
+
+@import "all.css";
+
+.button {
+  -fx-border-color: -light-gray;
+  -fx-text-fill: -text-color;
+  -fx-font-weight: bold;
+  -fx-border-width: 2px;
+  -fx-border-radius: 8px;
+  -fx-background-radius: 8px;
+}

@@ -280,7 +280,9 @@ public class DashBoardController implements Initializable, DashboardListener {
 	    Stage stage = new Stage();
 	    stage.setTitle("Paramètres");
 	    stage.setResizable(false);
-	    stage.setScene(new Scene(root));
+	    Scene scene = new Scene(root);
+	    scene.getStylesheets().add(getClass().getResource("/ressources/css/parameters.css").toString());
+	    stage.setScene(scene);
 	    stage.initOwner((Stage) zoneLists.getScene().getWindow());
 	    stage.initModality(Modality.APPLICATION_MODAL);
 	    stage.centerOnScreen();
