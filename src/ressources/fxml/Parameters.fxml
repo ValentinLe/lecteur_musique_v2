@@ -15,8 +15,8 @@
             <Label text="Chemin des musiques :" />
             <HBox spacing="8.0">
                <children>
-                  <TextField fx:id="musicFolder" HBox.hgrow="ALWAYS" />
-                  <Button mnemonicParsing="false" text="Parcourir..." />
+                  <TextField fx:id="musicFolder" prefWidth="500.0" HBox.hgrow="ALWAYS" />
+                  <Button mnemonicParsing="false" onAction="#musicPathChooser" text="Parcourir..." />
                </children>
             </HBox>
          </children>

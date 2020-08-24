@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.TextField;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import lecteur_musique.config.Config;
 import lecteur_musique.config.ConfigParams;
@@ -27,7 +28,7 @@ public class ParametersController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-	
+
     }
 
     public void setDashboard(Dashboard dashboard) {
@@ -58,6 +59,7 @@ public class ParametersController implements Initializable {
 		}
 		if (musics != null) {
 		    config.setValueOf(ConfigParams.MUSIC_FOLDER_KEY, newFolder);
+		    config.write();
 		    dashboard.clear();
 		    dashboard.addAllMusic(musics);
 		    dashboard.shuffleSecondaryQueue();
@@ -67,14 +69,25 @@ public class ParametersController implements Initializable {
 	}
 	close((Node) e.getSource());
     }
-    
+
     @FXML
     private void cancel(ActionEvent e) {
 	close((Node) e.getSource());
     }
-    
+
     private void close(Node node) {
 	Stage stage = (Stage) node.getScene().getWindow();
 	stage.close();
+    }
+
+    @FXML
+    private void musicPathChooser(ActionEvent e) {
+	DirectoryChooser directoryChooser = new DirectoryChooser();
+	File selectedDirectory = directoryChooser.showDialog((Stage) musicFolder.getScene().getWindow());
+
+	if (selectedDirectory != null) {
+	    String newPath = selectedDirectory.getAbsolutePath();
+	    musicFolder.setText(newPath);
+	}
     }
 }

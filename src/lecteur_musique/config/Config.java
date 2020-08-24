@@ -1,16 +1,21 @@
 package lecteur_musique.config;
 
 import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Map;
+import java.io.Reader;
+import java.io.Writer;
+import java.util.Properties;
 
 public class Config {
 
     private String configFileName;
-    private Map<String, String> mapConfig;
+    private Properties properties;
 
     public Config(String configFileName) {
-	this.configFileName = configFileName;
+	this.configFileName = System.getProperty("user.dir") + configFileName;
+	this.properties = new Properties();
 	read();
     }
     
@@ -29,33 +34,53 @@ public class Config {
     }
 
     public void read() {
-	mapConfig = ConfigReader.read(configFileName);
+	Reader reader = null;
+	properties.clear();
+	try {
+	    reader = new FileReader(configFileName);
+	    properties.load(reader);
+	} catch (IOException ex) {
+	    ex.printStackTrace();
+	} finally {
+	    if (reader != null) {
+		try {
+		    reader.close();
+		} catch (IOException ex) {
+		    ex.printStackTrace();
+		}
+	    }
+	}
     }
 
     public boolean write() {
+	Writer writer = null;
 	try {
-	    return ConfigWriter.write(mapConfig, configFileName);
-	} catch (Exception e) {
+	    writer = new FileWriter(configFileName);
+	    properties.store(writer, configFileName);
+	    writer.close();
+	} catch (IOException e) {
 	    e.printStackTrace();
+	} finally {
+	    if (writer != null) {
+		try {
+		    writer.close();
+		} catch (IOException ex) {
+		    ex.printStackTrace();
+		}
+	    }
 	}
 	return false;
     }
     
-    @Override
-    protected void finalize() {
-	System.out.println("WRITE");
-	write();
-    }
-    
-    public Map<String, String> getMap() {
-	return mapConfig;
+    public Properties getProperties() {
+	return properties;
     }
 
     public String getValueOf(String configKey) {
-	return mapConfig.get(configKey);
+	return properties.getProperty(configKey);
     }
     
     public void setValueOf(String configKey, String configValue) {
-	mapConfig.put(configKey, configValue);
+	properties.setProperty(configKey, configValue);
     }
 }

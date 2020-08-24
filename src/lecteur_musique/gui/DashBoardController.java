@@ -118,11 +118,8 @@ public class DashBoardController implements Initializable, DashboardListener {
 	dashboard.addListener(this);
 	isPlaying = false;
 	isPauseChangeValue = false;
-	
-	//config.setValueOf(ConfigParams.MUSIC_FOLDER_KEY, "C:\\Users\\Val\\Desktop\\Dossier\\musiques\\");
 
 	String musicFolder = config.getValueOf(ConfigParams.MUSIC_FOLDER_KEY);
-	bmute.setText(musicFolder);
 	if (musicFolder != null) {
 	    readMusics(musicFolder);
 	}
@@ -200,20 +197,33 @@ public class DashBoardController implements Initializable, DashboardListener {
     @FXML
     private void playPause(ActionEvent event) {
 	switchPlayPause();
-	if (isPlaying) {
-	    bplaypause.setStyle("-fx-background-image: url('/ressources/images/pause.png')");
-	} else {
-	    bplaypause.setStyle("-fx-background-image: url('/ressources/images/play.png')");
+    }
+    
+    private void play() {
+	play(true);
+    }
+
+    private void play(boolean turnButton) {
+	if (mediaPlayer != null) {
+	    mediaPlayer.play();
+	    if (turnButton) {
+		bplaypause.setStyle("-fx-background-image: url('/ressources/images/pause.png')");
+	    }
+	    isPlaying = true;
 	}
     }
 
-    private void play() {
-	mediaPlayer.play();
-	isPlaying = true;
-    }
-
     private void pause() {
-	mediaPlayer.pause();
+	pause(true);
+    }
+    
+    private void pause(boolean turnButton) {
+	if (mediaPlayer != null) {
+	    mediaPlayer.pause();
+	}
+	if (turnButton) {
+	    bplaypause.setStyle("-fx-background-image: url('/ressources/images/play.png')");
+	}
 	isPlaying = false;
     }
 
@@ -270,7 +280,7 @@ public class DashBoardController implements Initializable, DashboardListener {
 	    Stage stage = new Stage();
 	    stage.setTitle("Paramètres");
 	    stage.setResizable(false);
-	    stage.setScene(new Scene(root, 500, 200));
+	    stage.setScene(new Scene(root));
 	    stage.initOwner((Stage) zoneLists.getScene().getWindow());
 	    stage.initModality(Modality.APPLICATION_MODAL);
 	    stage.centerOnScreen();
@@ -309,7 +319,7 @@ public class DashBoardController implements Initializable, DashboardListener {
 	    if (isPlaying) {
 		isPauseChangeValue = true;
 	    }
-	    pause();
+	    pause(false);
 	    positionnateMusiqueLikeSlider();
 	}
     }
@@ -317,7 +327,7 @@ public class DashBoardController implements Initializable, DashboardListener {
     @FXML
     private void sliderTimeReleased(MouseEvent e) {
 	if (isPauseChangeValue) {
-	    play();
+	    play(false);
 	}
 	positionnateMusiqueLikeSlider();
 	isPauseChangeValue = false;
@@ -391,6 +401,8 @@ public class DashBoardController implements Initializable, DashboardListener {
 	    if (isMuted) {
 		mediaPlayer.setMute(true);
 	    }
+	} else {
+	    pause();
 	}
 	updateLabelsMusic();
     }
