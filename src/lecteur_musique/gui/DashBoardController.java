@@ -4,9 +4,12 @@ import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -18,10 +21,14 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -107,6 +114,8 @@ public class DashBoardController implements Initializable, DashboardListener {
 
     private boolean looping = false;
 
+    private final ObjectProperty<ListCell<Music>> dragSource = new SimpleObjectProperty<>();
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 	config = new Config();
@@ -156,8 +165,52 @@ public class DashBoardController implements Initializable, DashboardListener {
 
 	dashboard.shuffleSecondaryQueue();
 	dashboard.nextMusic();
+	zoneLists.setOnKeyPressed((e) -> {
+	    List<Music> startQueue;
+	    List<Music> endQueue;
+	    Music music;
+	    KeyCode moveCode;
+	    boolean canMoveMusic = true;
+	    
+	    if (priorityList.isFocused()) {
+		startQueue = dashboard.getPriorityQueue();
+		endQueue = dashboard.getSecondaryQueue();
+		music = priorityList.getSelectionModel().getSelectedItem();
+		moveCode = KeyCode.RIGHT;
+	    } else {
+		startQueue = dashboard.getSecondaryQueue();
+		endQueue = dashboard.getPriorityQueue();
+		if (secondaryList.isFocused()) {
+		    music = secondaryList.getSelectionModel().getSelectedItem();
+		    moveCode = KeyCode.LEFT;
+		} else {
+		    canMoveMusic = false;
+		    music = searchList.getSelectionModel().getSelectedItem();
+		    moveCode = KeyCode.RIGHT;
+		}
+	    }
+	    
+	    KeyCombination keyCombSwitch = new KeyCodeCombination(moveCode, KeyCodeCombination.CONTROL_DOWN);
+	    KeyCombination keyCombMoveUp = new KeyCodeCombination(KeyCode.UP, KeyCodeCombination.CONTROL_DOWN);
+	    KeyCombination keyCombMoveDown = new KeyCodeCombination(KeyCode.DOWN, KeyCodeCombination.CONTROL_DOWN);
+	    System.out.println(e.getCode());
+	    if (keyCombSwitch.match(e)) {
+		dashboard.switchMusic(startQueue, endQueue, music);
+	    } else if (e.getCode() == KeyCode.UP) {
+		System.out.println("UP " + canMoveMusic);
+		if (canMoveMusic) {
+		    dashboard.moveMusicUp(startQueue, music);
+		}
+	    } else if (keyCombMoveDown.match(e)) {
+		System.out.println("DOWN " + canMoveMusic);
+		if (canMoveMusic) {
+		    dashboard.moveMusicDown(startQueue, music);
+		}
+	    }
+	    
+	});
     }
-    
+
     private void setListenerSearch(ObservableList<Music> observableMusic) {
 	filteredList = new FilteredList<>(observableMusic, s -> true);
 	searchList.setItems(filteredList);
@@ -198,7 +251,7 @@ public class DashBoardController implements Initializable, DashboardListener {
     private void playPause(ActionEvent event) {
 	switchPlayPause();
     }
-    
+
     private void play() {
 	play(true);
     }
@@ -216,7 +269,7 @@ public class DashBoardController implements Initializable, DashboardListener {
     private void pause() {
 	pause(true);
     }
-    
+
     private void pause(boolean turnButton) {
 	if (mediaPlayer != null) {
 	    mediaPlayer.pause();
@@ -271,7 +324,7 @@ public class DashBoardController implements Initializable, DashboardListener {
     @FXML
     private void parameters(ActionEvent e) {
 	try {
-	    FXMLLoader loader  = new FXMLLoader();
+	    FXMLLoader loader = new FXMLLoader();
 	    loader.setLocation(getClass().getResource("/ressources/fxml/Parameters.fxml"));
 	    Parent root = loader.load();
 	    ParametersController paramControl = loader.getController();
@@ -435,7 +488,7 @@ public class DashBoardController implements Initializable, DashboardListener {
     public void currentMusicHasChanged() {
 	update();
     }
-    
+
     @Override
     public void contentHasChanged() {
 	ObservableList<Music> observableSortedMusics = FXCollections.observableList(dashboard.getSortedMusics());

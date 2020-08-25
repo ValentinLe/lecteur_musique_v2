@@ -9,7 +9,6 @@ import javafx.scene.Node;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
@@ -45,6 +44,11 @@ public class MusicListCell extends ListCell<Music> {
 	this.queue = queue;
 	this.draggble = draggable;
 	
+	setOnMouseClicked((e) -> {
+	    if (isEmpty()) {
+		e.consume();
+	    }
+	});
 	if (draggable) {
 	    setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
 	    
@@ -78,23 +82,28 @@ public class MusicListCell extends ListCell<Music> {
 		    String[] data = db.getString().split(separatorData);
 		    int hoverIndex = items.indexOf(getItem());
 		    int dragIndex = Integer.parseInt(data[0]);
-		    // https://stackoverflow.com/questions/49922833/javafx-listview-not-active
-		    // https://stackoverflow.com/questions/25390888/dragging-and-dropping-list-view-items-between-different-javafx-windows
+		    
 		    List<Music> startQueue = ((MusicListCell) e.getGestureSource()).getQueue();
 		    List<Music> endQueue = startQueue;
 		    Music musicHover = getItem();
-		    
+		    boolean sameQueue = true;
 		    if (!getQueue().equals(startQueue)) {
 			endQueue = dashboard.getOtherQueue(startQueue);
+			sameQueue = false;
 		    }
 		    Music musicDragged = startQueue.get(dragIndex);
 		    if (getItem() == null || !musicDragged.equals(getItem())) {
-			startQueue.remove(musicDragged);
 			if (hoverIndex < 0) {
-			    endQueue.add(musicDragged);
-			    hoverIndex = endQueue.size() - 1;
+			    hoverIndex = endQueue.size();
+			}
+			
+			if (sameQueue) {
+			    dashboard.moveMusic(queue, musicDragged, hoverIndex);
 			} else {
-			    endQueue.add(hoverIndex, musicDragged);
+			    dashboard.switchMusic(startQueue, endQueue, musicDragged, hoverIndex);
+			}
+			if (hoverIndex == endQueue.size()) {
+			    hoverIndex -= 1;
 			}
 		    }
 		    success = true;

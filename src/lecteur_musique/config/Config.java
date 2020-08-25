@@ -6,6 +6,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
+import java.net.URISyntaxException;
+import java.security.CodeSource;
 import java.util.Properties;
 
 public class Config {
@@ -14,13 +16,32 @@ public class Config {
     private Properties properties;
 
     public Config(String configFileName) {
-	this.configFileName = System.getProperty("user.dir") + configFileName;
+	this.configFileName = getLocation(configFileName);
 	this.properties = new Properties();
 	read();
     }
     
     public Config() {
 	this(ConfigParams.CONFIG_FILENAME);
+    }
+    
+    public String getLocation(String configFileName) {
+	String path1 = System.getProperty("user.dir") + configFileName;
+	if (new File(path1).exists()) {
+	    return path1;
+	}
+	CodeSource codeSource = Config.class.getProtectionDomain().getCodeSource();
+	String path2 = null;
+	try {
+	    path2 = codeSource.getLocation().toURI().getPath();
+	} catch (URISyntaxException ex) {
+	    ex.printStackTrace();
+	}
+	path2 = new File(path2).getParent() + configFileName;
+	if (new File(path2).exists()) {
+	    return path2;
+	}
+	return null;
     }
 
     public void setConfigFileName(String newConfigFileName) throws IOException {
