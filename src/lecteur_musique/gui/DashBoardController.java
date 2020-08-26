@@ -17,6 +17,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -53,6 +54,9 @@ public class DashBoardController implements Initializable, DashboardListener {
     private boolean isPlaying;
     private boolean isPauseChangeValue;
 
+    @FXML
+    private Node root;
+    
     @FXML
     private TextField searchinput;
 
@@ -165,7 +169,20 @@ public class DashBoardController implements Initializable, DashboardListener {
 
 	dashboard.shuffleSecondaryQueue();
 	dashboard.nextMusic();
-	zoneLists.setOnKeyPressed((e) -> {
+	
+	setKeyEventToListView(searchList);
+	setKeyEventToListView(priorityList);
+	setKeyEventToListView(secondaryList);
+	
+	root.setOnKeyPressed((e) -> {
+	    if (e.getCode() == KeyCode.ESCAPE) {
+		searchinput.setText("");
+	    }
+	});
+    }
+    
+    private void setKeyEventToListView(ListView<Music> listView) {
+	listView.setOnKeyPressed((e) -> {
 	    List<Music> startQueue;
 	    List<Music> endQueue;
 	    Music music;
@@ -193,19 +210,27 @@ public class DashBoardController implements Initializable, DashboardListener {
 	    KeyCombination keyCombSwitch = new KeyCodeCombination(moveCode, KeyCodeCombination.CONTROL_DOWN);
 	    KeyCombination keyCombMoveUp = new KeyCodeCombination(KeyCode.UP, KeyCodeCombination.CONTROL_DOWN);
 	    KeyCombination keyCombMoveDown = new KeyCodeCombination(KeyCode.DOWN, KeyCodeCombination.CONTROL_DOWN);
-	    System.out.println(e.getCode());
+	    
 	    if (keyCombSwitch.match(e)) {
 		dashboard.switchMusic(startQueue, endQueue, music);
-	    } else if (e.getCode() == KeyCode.UP) {
-		System.out.println("UP " + canMoveMusic);
+	    } else if (keyCombMoveUp.match(e)) {
 		if (canMoveMusic) {
 		    dashboard.moveMusicUp(startQueue, music);
+		    listView.getSelectionModel().select(startQueue.indexOf(music));
+		} else {
+		    e.consume();
 		}
 	    } else if (keyCombMoveDown.match(e)) {
-		System.out.println("DOWN " + canMoveMusic);
 		if (canMoveMusic) {
 		    dashboard.moveMusicDown(startQueue, music);
+		    listView.getSelectionModel().select(startQueue.indexOf(music));
+		} else {
+		    e.consume();
 		}
+	    } else if (e.getCode() == KeyCode.ESCAPE) {
+		searchinput.setText("");
+	    } else {
+		e.consume();
 	    }
 	    
 	});

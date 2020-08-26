@@ -70,11 +70,11 @@
 }
 
 .list-cell:filled:hover {
-  -fx-background-color: -accent-color-40;
+  -fx-background-color: -accent-color-low;
 }
 
 .list-cell:filled:selected {
-  -fx-background-color: -accent-color-80;
+  -fx-background-color: -accent-color-high;
 }
 
 #author, #duration {

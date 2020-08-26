@@ -52,11 +52,7 @@ public class ParametersController implements Initializable {
 	    if (folder.exists()) {
 		MusicReader reader = new MP3MusicReader();
 		List<Music> musics = null;
-		try {
-		    musics = reader.read(newFolder);
-		} catch (Exception ex) {
-		    ex.printStackTrace();
-		}
+		musics = reader.read(newFolder);
 		if (musics != null) {
 		    config.setValueOf(ConfigParams.MUSIC_FOLDER_KEY, newFolder);
 		    config.write();
