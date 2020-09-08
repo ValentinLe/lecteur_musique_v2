@@ -5,6 +5,7 @@ import java.io.IOException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.*;
+import javafx.scene.image.Image;
 import javafx.stage.*;
 
 public class MainApp extends Application {
@@ -19,7 +20,8 @@ public class MainApp extends Application {
 	scene.getStylesheets().add(getClass().getResource("/ressources/css/main.css").toString());
 
 	// Show the stage
-	primaryStage.setTitle("Media Player");
+	primaryStage.setTitle("Slatify");
+	primaryStage.getIcons().add(new Image("/ressources/images/logo.png"));
 	primaryStage.setScene(scene);
 	primaryStage.show();
     }

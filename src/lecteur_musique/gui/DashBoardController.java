@@ -27,6 +27,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
@@ -358,6 +359,7 @@ public class DashBoardController implements Initializable, DashboardListener {
 	    stage.setResizable(false);
 	    Scene scene = new Scene(root);
 	    scene.getStylesheets().add(getClass().getResource("/ressources/css/parameters.css").toString());
+	    stage.getIcons().add(new Image("/ressources/images/logo.png"));
 	    stage.setScene(scene);
 	    stage.initOwner((Stage) zoneLists.getScene().getWindow());
 	    stage.initModality(Modality.APPLICATION_MODAL);
