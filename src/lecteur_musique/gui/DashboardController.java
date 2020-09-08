@@ -47,7 +47,7 @@ import lecteur_musique.model.musicreader.MP3MusicReader;
 import lecteur_musique.model.musicreader.MusicReader;
 import lecteur_musique.model.observer.DashboardListener;
 
-public class DashBoardController implements Initializable, DashboardListener {
+public class DashboardController implements Initializable, DashboardListener {
 
     private MediaPlayer mediaPlayer;
     private Dashboard dashboard;
