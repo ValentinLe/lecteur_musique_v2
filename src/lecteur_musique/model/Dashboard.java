@@ -92,7 +92,7 @@ public class Dashboard extends AbstractListenableDashboard {
     public void precedentMusic() {
 	if (!secondaryQueue.isEmpty() && currentMusic != null) {
 	    Music lastMusic = secondaryQueue.get(secondaryQueue.size() - 1);
-	    if (!priorityQueue.isEmpty() && musicsAddedToPriorityQueue.contains(lastMusic)) {
+	    if (!priorityQueue.isEmpty() && musicsAddedToPriorityQueue.contains(currentMusic)) {
 		priorityQueue.add(0, currentMusic);
 	    } else {
 		secondaryQueue.add(0, currentMusic);

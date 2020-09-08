@@ -229,8 +229,6 @@ public class DashBoardController implements Initializable, DashboardListener {
 		}
 	    } else if (e.getCode() == KeyCode.ESCAPE) {
 		searchinput.setText("");
-	    } else {
-		e.consume();
 	    }
 	    
 	});

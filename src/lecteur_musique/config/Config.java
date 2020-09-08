@@ -55,42 +55,45 @@ public class Config {
     }
 
     public void read() {
-	Reader reader = null;
-	properties.clear();
-	try {
-	    reader = new FileReader(configFileName);
-	    properties.load(reader);
-	} catch (IOException ex) {
-	    ex.printStackTrace();
-	} finally {
-	    if (reader != null) {
-		try {
-		    reader.close();
-		} catch (IOException ex) {
-		    ex.printStackTrace();
+	if (configFileName != null) {
+	    Reader reader = null;
+	    properties.clear();
+	    try {
+		reader = new FileReader(configFileName);
+		properties.load(reader);
+	    } catch (IOException ex) {
+		ex.printStackTrace();
+	    } finally {
+		if (reader != null) {
+		    try {
+			reader.close();
+		    } catch (IOException ex) {
+			ex.printStackTrace();
+		    }
 		}
 	    }
 	}
     }
 
-    public boolean write() {
-	Writer writer = null;
-	try {
-	    writer = new FileWriter(configFileName);
-	    properties.store(writer, configFileName);
-	    writer.close();
-	} catch (IOException e) {
-	    e.printStackTrace();
-	} finally {
-	    if (writer != null) {
-		try {
-		    writer.close();
-		} catch (IOException ex) {
-		    ex.printStackTrace();
+    public void write() {
+	if (configFileName != null) {
+	    Writer writer = null;
+	    try {
+		writer = new FileWriter(configFileName);
+		properties.store(writer, configFileName);
+		writer.close();
+	    } catch (IOException e) {
+		e.printStackTrace();
+	    } finally {
+		if (writer != null) {
+		    try {
+			writer.close();
+		    } catch (IOException ex) {
+			ex.printStackTrace();
+		    }
 		}
 	    }
 	}
-	return false;
     }
     
     public Properties getProperties() {
