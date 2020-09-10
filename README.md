@@ -4,7 +4,7 @@ Logiciel permettant d'écouter des musiques et d'avoir un contrôle facile sur l
 
 - Demo
 <div align="center">
-<img src="https://github.com/ValentinLe/lecteur_musique_v2/blob/master/screenshots/demo.gif" alt="demo" width="716" height="374">
+<img src="https://github.com/ValentinLe/lecteur_musique_v2/blob/master/screenshots/demo.gif" alt="demo" width="716" height="402">
 </div>
 
 - Fenêtre des paramètres
