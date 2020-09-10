@@ -25,4 +25,4 @@ Logiciel permettant d'écouter des musiques et d'avoir un contrôle facile sur l
 - <a href="https://github.com/mpatric/mp3agic">mp3agic</a> afin de récupérer les metadata des fichiers MP3
 
 ## Informations
-- La racine du projet est un projet Netbeans, on peut donc ouvrir le projet depuis l'IDE.
+- La racine du projet est un projet Netbeans, on peut donc l'ouvrir depuis l'IDE.
