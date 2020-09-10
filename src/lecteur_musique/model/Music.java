@@ -65,11 +65,7 @@ public class Music implements Comparable<Music> {
 	long seconds = Math.floorMod(secondsValue, 60);
 	String res = "";
 	res += minutes + ":";
-	if (seconds < 10) {
-	    // on ajoute un 0 quand le nombre de secondes contient un chiffre
-	    res += "0";
-	}
-	res += seconds;
+	res += String.format("%02d", seconds);
 	return res;
     }
 

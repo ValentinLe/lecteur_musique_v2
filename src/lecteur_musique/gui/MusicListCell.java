@@ -51,6 +51,12 @@ public class MusicListCell extends ListCell<Music> {
 	this.queue = queue;
 	this.draggble = draggable;
 	
+	setOnMouseClicked((e) -> {
+	    if (isEmpty()) {
+		e.consume();
+	    }
+	});
+	
 	if (draggable) {
 	    setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
 	    

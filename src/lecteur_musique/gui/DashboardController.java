@@ -245,6 +245,10 @@ public class DashboardController implements Initializable, DashboardListener {
 	    KeyCombination keyCombMoveUp = new KeyCodeCombination(KeyCode.UP, KeyCodeCombination.CONTROL_DOWN);
 	    KeyCombination keyCombMoveDown = new KeyCodeCombination(KeyCode.DOWN, KeyCodeCombination.CONTROL_DOWN);
 
+	    
+	    Music musicSelected = listView.getSelectionModel().getSelectedItem();
+	    ObservableList<Music> items = listView.getItems();
+	    
 	    if (keyCombSwitch.match(e)) {
 		dashboard.switchMusic(startQueue, endQueue, music);
 	    } else if (keyCombMoveUp.match(e)) {
@@ -271,6 +275,30 @@ public class DashboardController implements Initializable, DashboardListener {
 		    // (donnee par defaut par ListView)
 		    e.consume();
 		}
+	    } else if (e.getCode() == KeyCode.UP) {
+		if (musicSelected != null) {
+		    // on selectionne l'element d'au dessus de celui selectionne
+		    int indexSelected = items.indexOf(musicSelected);
+		    int position = indexSelected > 0 ? indexSelected - 1 : 0;
+		    listView.getSelectionModel().select(position);
+		}
+		if (musicSelected == null && !listView.getItems().isEmpty()) {
+		    // on selectionne le dernier element si aucun n'est selectionner
+		    listView.getSelectionModel().select(items.size() - 1);
+		}
+		e.consume();
+	    } else if (e.getCode() == KeyCode.DOWN) {
+		if (musicSelected != null) {
+		    // on selectionne l'element d'en dessous de celui selectionne
+		    int indexSelected = items.indexOf(musicSelected);
+		    int position = indexSelected < items.size() ? indexSelected + 1 : items.size() - 1;
+		    listView.getSelectionModel().select(position);
+		}
+		if (musicSelected == null && !listView.getItems().isEmpty()) {
+		    // on selectionne le premier element si aucun n'est selectionner
+		    listView.getSelectionModel().select(0);
+		}
+		e.consume();
 	    } else if (e.getCode() == KeyCode.ESCAPE) {
 		// on efface le contenu de la barre de recherche
 		searchinput.setText("");
