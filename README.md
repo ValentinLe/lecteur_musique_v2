@@ -9,10 +9,11 @@ Logiciel permettant d'écouter des musiques et d'avoir un contrôle facile sur l
 
 - Fenêtre des paramètres
 <div align="center">
-<img src="https://github.com/ValentinLe/lecteur_musique_v2/blob/master/screenshots/parametres.PNG" alt="parametres">
+<img src="https://github.com/ValentinLe/lecteur_musique_v2/blob/master/screenshots/parametres.PNG" alt="parametres" width="500">
 </div>
 
 ## Contrôles
+- Drag and drop entre la liste d'attente prioritaire et secondaire, on peut déplacer une musique au sein d'une liste d'attente ou bien la faire changer de liste a une position particulière.
 - Double clic sur une musique pour la faire changer de liste (double clic sur une musique de la liste d'attente pour la mettre à la suite de la liste d'attente prioritaire et inversement).
 - flèche de gauche pour mettre le focus sur la liste d'attente prioritaire et flèche de droite pour la liste d'attente normale.
 - Ctrl + Haut/Bas pour changer la position dans la liste de la musique séléctionnée.
