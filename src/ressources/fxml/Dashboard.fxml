@@ -140,7 +140,10 @@
                               <Button fx:id="bparameters" mnemonicParsing="false" onAction="#parameters">
                                  <HBox.margin>
                                     <Insets />
-                                 </HBox.margin></Button>
+                                 </HBox.margin>
+                                 <tooltip>
+                                    <Tooltip text="Paramètres" />
+                                 </tooltip></Button>
                            </children>
                            <VBox.margin>
                               <Insets bottom="8.0" />
