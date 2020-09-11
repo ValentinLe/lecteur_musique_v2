@@ -141,4 +141,8 @@ public class Config {
     public void setValueOf(String configKey, String configValue) {
 	properties.setProperty(configKey, configValue);
     }
+    
+    public void removeConfig(String configKey) {
+	properties.remove(configKey);
+    }
 }

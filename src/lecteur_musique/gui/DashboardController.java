@@ -1,5 +1,6 @@
 package lecteur_musique.gui;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Paths;
@@ -358,7 +359,11 @@ public class DashboardController implements Initializable, DashboardListener {
 	try {
 	    dashboard.addAllMusic(reader.read(musicFolder));
 	} catch (Exception e) {
-	    e.printStackTrace();
+	    File folderMusic = new File(config.getValueOf(ConfigParams.MUSIC_FOLDER_KEY));
+	    if (!folderMusic.exists()) {
+		config.removeConfig(ConfigParams.MUSIC_FOLDER_KEY);
+		config.write();
+	    }
 	}
     }
 
