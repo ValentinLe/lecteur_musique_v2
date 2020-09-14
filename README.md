@@ -18,7 +18,7 @@ Logiciel permettant d'écouter des musiques et d'avoir un contrôle facile sur l
 - flèche de gauche pour mettre le focus sur la liste d'attente prioritaire et flèche de droite pour la liste d'attente normale.
 - Ctrl + Haut/Bas pour changer la position dans la liste de la musique séléctionnée.
 - Ctrl + Gauche/Droite pour déplacer la musique de liste d'attente.
-- Delete pour effacer le texte de la recherche.
+- Echap pour effacer le texte de la recherche.
 - Entrer pour changer la musique sélectionnée de liste.
 
 ## Dépendences
