@@ -736,11 +736,11 @@ public class DashboardController implements Initializable, DashboardListener {
     }
 
     /**
-     * Les listes d'attentes on changes
+     * Les listes d'attentes ont changees
      */
     @Override
     public void queuesHasChanged() {
-	// rien a gerer, c'est fait par les observables listes
+	updateLabelsMusic();
     }
 
     /**
