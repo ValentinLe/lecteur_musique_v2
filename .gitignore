@@ -1,4 +1,7 @@
-nbproject/private/
-build/
-dist/
 config/*
+.classpath
+.project
+.vscode/
+.settings/
+target/
+libs/

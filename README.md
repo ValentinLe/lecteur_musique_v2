@@ -24,4 +24,4 @@ Logiciel permettant d'écouter des musiques et d'avoir un contrôle facile sur l
 
 ## Informations
 - Permet de lire uniquement les fichiers MP3. 
-- La racine du projet est un projet Netbeans, on peut donc l'ouvrir depuis l'IDE.
+- Projet fait avec l'environnement Maven.
