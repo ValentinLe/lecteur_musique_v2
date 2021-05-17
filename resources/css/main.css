@@ -140,7 +140,7 @@
 }
 
 .progress-bar .bar {
-  -fx-padding: 3px;
+  -fx-padding: 2px;
   -fx-background-insets: 0;
   -fx-background-color: -accent-color;
 }
@@ -163,7 +163,7 @@
 
 .slider .thumb {
   -fx-background-color: -accent-color;
-  -fx-padding: 7px;
+  -fx-padding: 6px;
 }
 
 .slider:hover .thumb {
