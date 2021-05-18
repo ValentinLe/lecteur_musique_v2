@@ -26,7 +26,7 @@ public class MainGui extends Application {
 
         // Affichage du stage
         primaryStage.setTitle("Slatify");
-        primaryStage.getIcons().add(new Image("/resources/images/logo.png"));
+        primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/images/logo.png")));
         primaryStage.setScene(scene);
         primaryStage.show();
     }

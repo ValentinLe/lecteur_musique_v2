@@ -34,23 +34,12 @@ public class MusicListCell extends ListCell<Music> {
 	@FXML
 	private GridPane gridpane;
 
-	// le dashboard de l'application
-	private Dashboard dashboard;
-
 	// la liste que contient la listView
 	private List<Music> queue;
 
-	// booleen si la listView possede le drag and drop
-	private boolean draggble;
-
-	// seprateur pour les messages pour gerer le drag and drop
-	final private String separatorData = "-";
-
 	public MusicListCell(Dashboard dashboard, List<Music> queue, boolean draggable) {
 		loadFXML();
-		this.dashboard = dashboard;
 		this.queue = queue;
-		this.draggble = draggable;
 
 		setOnMouseClicked((e) -> {
 			if (isEmpty()) {
@@ -65,7 +54,6 @@ public class MusicListCell extends ListCell<Music> {
 				if (getItem() == null) {
 					return;
 				}
-				ObservableList<Music> items = getListView().getItems();
 
 				Dragboard dragboard = startDragAndDrop(TransferMode.MOVE);
 				Node cell = (Node) e.getSource();
@@ -98,7 +86,6 @@ public class MusicListCell extends ListCell<Music> {
 					// on recupere la liste de la musique drag
 					List<Music> startQueue = ((MusicListCell) e.getGestureSource()).getQueue();
 					List<Music> endQueue = startQueue;
-					Music musicHover = getItem();
 					boolean sameQueue = true;
 					if (!getQueue().equals(startQueue)) {
 						// on regarde si la musique survole se trouve dans la meme

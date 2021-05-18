@@ -153,7 +153,7 @@
 }
 
 .slider {
-  -fx-padding: 1px 0 1px 0;
+  -fx-padding: 2px 0 1px 0;
 }
 
 .slider .track {
@@ -170,24 +170,23 @@
   -fx-padding: 8px;
 }
 
-
 /* LABEL */
 
 .musicTime {
   -fx-font-weight: normal;
-  -fx-font-size: 15px;
+  -fx-font-size: 12px;
 }
 
 .titleList {
-  -fx-font-size: 17px;
+  -fx-font-size: 14px;
 }
 
 #titleMusic {
-  -fx-font-size: 18px;
+  -fx-font-size: 14px;
 }
 
 #authorMusic {
-  -fx-font-size: 14px;
+  -fx-font-size: 12px;
   -fx-font-weight: normal;
 }
 
@@ -196,21 +195,21 @@
 
 #bshuffle, #bprecedent, #bplaypause, #bnext, #bloop, #bparameters, #bmute {
   -fx-background-radius: 100%;
-  -fx-background-size: 30px;
-  -fx-min-width: 45px;
-  -fx-min-height: 45px;
-  -fx-max-width: 45px;
-  -fx-max-height: 45px;
+  -fx-background-size: 22px;
+  -fx-min-width: 35px;
+  -fx-min-height: 35px;
+  -fx-max-width: 35px;
+  -fx-max-height: 35px;
   -fx-background-repeat: no-repeat;
   -fx-background-position: center;
 }
 
 #bplaypause {
-  -fx-min-width: 60px;
-  -fx-min-height: 60px;
-  -fx-max-width: 60px;
-  -fx-max-height: 60px;
-  -fx-background-size: 45px;
+  -fx-min-width: 45px;
+  -fx-min-height: 45px;
+  -fx-max-width: 45px;
+  -fx-max-height: 45px;
+  -fx-background-size: 30px;
 }
 
 #bshuffle {

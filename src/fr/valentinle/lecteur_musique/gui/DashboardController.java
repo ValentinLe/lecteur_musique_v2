@@ -517,7 +517,7 @@ public class DashboardController implements Initializable, DashboardListener {
 			stage.setResizable(false);
 			Scene scene = new Scene(root);
 			scene.getStylesheets().add(getClass().getResource("/resources/css/parameters.css").toString());
-			stage.getIcons().add(new Image("/resources/images/logo.png"));
+			stage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/images/logo.png")));
 			stage.setScene(scene);
 			stage.initOwner((Stage) zoneLists.getScene().getWindow());
 			stage.initModality(Modality.APPLICATION_MODAL);
