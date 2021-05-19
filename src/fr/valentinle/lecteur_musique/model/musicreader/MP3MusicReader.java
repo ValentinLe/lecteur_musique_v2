@@ -31,7 +31,16 @@ public class MP3MusicReader implements MusicReader {
 				Mp3File fileMp3 = new Mp3File(musicFile.getAbsolutePath());
 				ID3v2 id3v2Tag = fileMp3.getId3v2Tag();
 				Mp3File mp3file = new Mp3File(musicFile.getAbsolutePath());
-				musics.add(new Music(musicFile.getAbsolutePath(), id3v2Tag.getArtist(), mp3file.getLengthInSeconds()));
+				if (id3v2Tag.getTitle() != null) {
+					musics.add(
+						new Music(musicFile.getAbsolutePath(), 
+						id3v2Tag.getTitle(), id3v2Tag.getArtist(), mp3file.getLengthInSeconds())
+					);
+				} else {
+					musics.add(
+						new Music(musicFile.getAbsolutePath(), id3v2Tag.getArtist(), mp3file.getLengthInSeconds())
+					);
+				}
 			} catch (IllegalArgumentException ex) {
 				// fichier non MP3, on passe au fichier suivant dans le dossier
 				continue;

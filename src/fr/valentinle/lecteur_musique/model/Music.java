@@ -32,6 +32,20 @@ public class Music implements Comparable<Music> {
     }
 
     /**
+     *
+     * @param fullname le nom absolue/complet de la musique
+     * @param name le nom de la musique
+     * @param author   l'auteur de la musique
+     * @param duration la duree en secondes de la musique
+     */
+    public Music(String fullname, String name, String author, long duration) {
+        this.fullName = fullname;
+        this.name = name;
+        this.author = author;
+        this.duration = duration;
+    }
+
+    /**
      * La fonction de hash d'une musique se fait en fonction de son nom
      *
      * @return la hashcode de la musique

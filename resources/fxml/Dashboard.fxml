@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="root" alignment="CENTER" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.valentinle.lecteur_musique.gui.DashboardController">
+<VBox fx:id="root" alignment="CENTER" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.valentinle.lecteur_musique.gui.DashboardController">
    <children>
       <GridPane fx:id="zoneLists" alignment="CENTER" hgap="8.0" vgap="8.0" VBox.vgrow="ALWAYS">
         <columnConstraints>
@@ -74,14 +74,14 @@
                <children>
                   <HBox alignment="CENTER" spacing="16.0">
                      <children>
-                        <Button fx:id="bshuffle" mnemonicParsing="false" onAction="#shuffleSecondary">
+                        <Button fx:id="bshuffle" focusTraversable="false" mnemonicParsing="false" onAction="#shuffleSecondary">
                            <tooltip>
                               <Tooltip text="Mélanger la liste d'attente" />
                            </tooltip></Button>
-                      <Button fx:id="bprecedent" mnemonicParsing="false" onAction="#precedentMusic" />
-                      <Button id="bplaypause" fx:id="bplaypause" mnemonicParsing="false" onAction="#playPause" />
-                      <Button fx:id="bnext" mnemonicParsing="false" onAction="#nextMusic" />
-                        <Button fx:id="bloop" mnemonicParsing="false" onAction="#loop" styleClass="unlocked">
+                      <Button fx:id="bprecedent" focusTraversable="false" mnemonicParsing="false" onAction="#precedentMusic" />
+                      <Button id="bplaypause" fx:id="bplaypause" focusTraversable="false" mnemonicParsing="false" onAction="#playPause" />
+                      <Button fx:id="bnext" focusTraversable="false" mnemonicParsing="false" onAction="#nextMusic" />
+                        <Button fx:id="bloop" focusTraversable="false" mnemonicParsing="false" onAction="#loop" styleClass="unlocked">
                            <tooltip>
                               <Tooltip text="Jouer en boucle" />
                            </tooltip></Button>
@@ -95,12 +95,12 @@
                         <Label fx:id="currentTimeLab" styleClass="musicTime" text="0:00" HBox.hgrow="ALWAYS" />
                         <StackPane HBox.hgrow="ALWAYS">
                            <children>
-                              <ProgressBar fx:id="progressTime" maxWidth="1.7976931348623157E308" progress="0.0" StackPane.alignment="CENTER">
+                              <ProgressBar fx:id="progressTime" focusTraversable="false" maxWidth="1.7976931348623157E308" progress="0.0" StackPane.alignment="CENTER">
                                  <StackPane.margin>
                                     <Insets left="8.0" right="8.0" />
                                  </StackPane.margin>
                               </ProgressBar>
-                            <Slider fx:id="sliderTime" onMouseDragged="#sliderTimePressed" onMousePressed="#sliderTimePressed" onMouseReleased="#sliderTimeReleased" />
+                            <Slider fx:id="sliderTime" focusTraversable="false" onMouseDragged="#sliderTimePressed" onMousePressed="#sliderTimePressed" onMouseReleased="#sliderTimeReleased" />
                            </children>
                            <HBox.margin>
                               <Insets />
@@ -122,22 +122,22 @@
                      <children>
                         <HBox alignment="CENTER">
                            <children>
-                              <Button fx:id="bmute" mnemonicParsing="false" onAction="#mute" />
+                              <Button fx:id="bmute" focusTraversable="false" mnemonicParsing="false" onAction="#mute" />
                               <StackPane>
                                  <children>
-                                    <ProgressBar fx:id="progressVolume" maxWidth="1.7976931348623157E308" progress="1.0">
+                                    <ProgressBar fx:id="progressVolume" focusTraversable="false" maxWidth="1.7976931348623157E308" progress="1.0">
                                        <StackPane.margin>
                                           <Insets left="8.0" right="8.0" />
                                        </StackPane.margin>
                                     </ProgressBar>
-                                    <Slider fx:id="sliderVolume" value="100.0" />
+                                    <Slider fx:id="sliderVolume" focusTraversable="false" value="100.0" />
                                  </children>
                               </StackPane>
                            </children>
                         </HBox>
                         <HBox alignment="CENTER" spacing="24.0">
                            <children>
-                              <Button fx:id="bparameters" mnemonicParsing="false" onAction="#parameters">
+                              <Button fx:id="bparameters" focusTraversable="false" mnemonicParsing="false" onAction="#parameters">
                                  <HBox.margin>
                                     <Insets />
                                  </HBox.margin>

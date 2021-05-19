@@ -29,6 +29,7 @@ import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -199,10 +200,16 @@ public class DashboardController implements Initializable, DashboardListener {
 		setKeyEventToListView(priorityList);
 		setKeyEventToListView(secondaryList);
 
-		// event pour effacer le contenu de la barre de recherche
-		root.setOnKeyPressed((e) -> {
+		root.addEventFilter(KeyEvent.KEY_PRESSED, e -> {
 			if (e.getCode() == KeyCode.ESCAPE) {
+				// event pour effacer le contenu de la barre de recherche
 				searchinput.setText("");
+			} else if (e.getCode() == KeyCode.SPACE || e.getCode() == KeyCode.DIGIT2) {
+				this.switchPlayPause();
+			} else if (e.getCode() == KeyCode.DIGIT1) {
+				this.precedentMusic(null);
+			} else if (e.getCode() == KeyCode.DIGIT3) {
+				this.nextMusic(null);
 			}
 		});
 	}
@@ -304,7 +311,6 @@ public class DashboardController implements Initializable, DashboardListener {
 				// on efface le contenu de la barre de recherche
 				searchinput.setText("");
 			}
-
 		});
 	}
 
